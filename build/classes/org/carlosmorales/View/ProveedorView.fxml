@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.carlosmorales.Controller.MenuProveedorController">
+   <children>
+      <ImageView fitHeight="591.0" fitWidth="1046.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/fondo%20Proveedores.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="85.0" fitWidth="78.0" layoutX="333.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/Logo.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tblProveedor" layoutX="77.0" layoutY="295.0" onMouseClicked="#seleccionarElementos" prefHeight="244.0" prefWidth="949.0">
+        <columns>
+          <TableColumn fx:id="colCodigoP" prefWidth="89.0" text="proveedorID" />
+          <TableColumn fx:id="colNombreP" prefWidth="131.0" text="nombresProveedor" />
+            <TableColumn fx:id="colApellidoP" minWidth="0.0" prefWidth="131.0" text="apellidosProveedor" />
+            <TableColumn fx:id="colNitP" minWidth="0.0" prefWidth="105.0" text="nitProveedor" />
+            <TableColumn fx:id="colDireccionP" minWidth="0.0" prefWidth="149.0" text="direccionProveedor" />
+            <TableColumn fx:id="colRazonSocial" prefWidth="102.0" text="razonSocial" />
+            <TableColumn fx:id="colContactoPrincipal" prefWidth="139.0" text="contactoPrincipal" />
+            <TableColumn fx:id="colPaginaWeb" prefWidth="102.0" text="paginaWeb" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnRegresar" layoutX="434.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="54.0" prefWidth="89.0">
+         <graphic>
+            <ImageView fitHeight="84.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/Regresar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <GridPane layoutX="14.0" layoutY="122.0" prefHeight="115.0" prefWidth="279.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btnAgregar" mnemonicParsing="false" prefHeight="48.0" prefWidth="119.0" text="Agregar" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <graphic>
+                  <ImageView fx:id="imgAgregar" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/AgregarClientes.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnEditar" mnemonicParsing="false" prefHeight="48.0" prefWidth="112.0" text="Editar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <graphic>
+                  <ImageView fx:id="imgEditar" fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/EditarClientes.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="51.0" prefWidth="119.0" text="Eliminar" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <graphic>
+                  <ImageView fx:id="imgEliminar" fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/EliminarClientes.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="btnReportes" mnemonicParsing="false" prefHeight="49.0" prefWidth="113.0" text="Reportes" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="imgReportes" fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/Reportes.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+      </GridPane>
+      <GridPane layoutX="317.0" layoutY="123.0" prefHeight="142.0" prefWidth="324.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="48.0" prefWidth="203.0" text="NombreProveedor" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label prefHeight="41.0" prefWidth="177.0" text="ApellidoProveedor" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label prefHeight="61.0" prefWidth="157.0" text="nitProveedor" GridPane.rowIndex="3">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNombreP" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtApellidoP" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtNitP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtCodigoP" GridPane.columnIndex="1" />
+            <Label prefHeight="48.0" prefWidth="154.0" text="ProveedorID">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <GridPane layoutX="673.0" layoutY="123.0" prefHeight="142.0" prefWidth="312.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label prefHeight="68.0" prefWidth="201.0" text="contactoPrincipal" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label prefHeight="56.0" prefWidth="153.0" text="paginaWeb" GridPane.rowIndex="3">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label prefHeight="37.0" prefWidth="161.0" text="direccionProveedor">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDireccionP" GridPane.columnIndex="1" />
+            <TextField fx:id="txtRazonSocial" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtContactoPrincipal" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtPaginaWeb" prefWidth="157.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label prefHeight="36.0" prefWidth="169.0" text="RazonSocial" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
