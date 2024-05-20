@@ -559,19 +559,6 @@ call sp_EliminarDetalleCompra(3);
 -- crud Empleados
 
 
-create table Empleados
-(
-	empleadoID int not null,
-    nombresEmpleado varchar(50),
-    apellidosEmpleado varchar(50),
-    sueldo decimal (10,2),
-    direccion varchar (150),
-    turno varchar(15),
-    cargoEmpleadoID int,
-    primary key empleadoID (empleadoID),
-    constraint FK_Empleados_cargoEmpleado foreign key Empleados(cargoEmpleadoID) 
-    references cargoEmpleado (cargoEmpleadoID) on delete cascade
-);
 
 
 delimiter $$

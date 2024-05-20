@@ -22,15 +22,15 @@
             <Image url="@../Images/fondo%20Empleados.png" />
          </image>
       </ImageView>
-      <TableView layoutX="51.0" layoutY="304.0" prefHeight="206.0" prefWidth="761.0">
+      <TableView fx:id="tblEmpleados" layoutX="51.0" layoutY="304.0" prefHeight="206.0" prefWidth="761.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="empleadoID" />
-          <TableColumn prefWidth="131.0" text="nombresEmpleado" />
-            <TableColumn prefWidth="132.0" text="apellidosEmpleado" />
-            <TableColumn prefWidth="87.0" text="sueldo" />
-            <TableColumn prefWidth="96.0" text="direccion" />
-            <TableColumn prefWidth="103.0" text="turno" />
-            <TableColumn prefWidth="136.0" text="cargoEmpleadoID" />
+          <TableColumn fx:id="colCodigoEmp" prefWidth="75.0" text="empleadoID" />
+          <TableColumn fx:id="colNombreEmp" prefWidth="131.0" text="nombresEmpleado" />
+            <TableColumn fx:id="colApellidosEmp" prefWidth="132.0" text="apellidosEmpleado" />
+            <TableColumn fx:id="colSueldo" prefWidth="87.0" text="sueldo" />
+            <TableColumn fx:id="colDireccionEmp" prefWidth="96.0" text="direccion" />
+            <TableColumn fx:id="colTurno" prefWidth="103.0" text="turno" />
+            <TableColumn fx:id="colCargoE" prefWidth="136.0" text="cargoEmpleadoID" />
         </columns>
       </TableView>
       <GridPane layoutX="17.0" layoutY="91.0" prefHeight="150.0" prefWidth="312.0">
@@ -65,10 +65,10 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtCodigoEmp" GridPane.columnIndex="1" />
+            <TextField fx:id="txtNombreEmp" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtApellidosEmp" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtSueldo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <GridPane layoutX="334.0" layoutY="110.0" prefHeight="112.0" prefWidth="303.0">
@@ -97,9 +97,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtDireccionEmp" GridPane.columnIndex="1" />
+            <TextField fx:id="txtTurno" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cmbCargoE" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <GridPane layoutX="847.0" layoutY="257.0" prefHeight="206.0" prefWidth="101.0">
@@ -113,10 +113,42 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="107.0" text="Agregar" />
-            <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" text="Eliminar" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="103.0" text="Editar" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="102.0" text="Reportes" GridPane.rowIndex="3" />
+            <Button fx:id="btnAgregar" mnemonicParsing="false" prefHeight="45.0" prefWidth="107.0" text="Agregar">
+               <graphic>
+                  <ImageView fx:id="imgAgregar" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/agregar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" text="Eliminar" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fx:id="imgEliminar" fitHeight="70.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/eliminar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnEditar" mnemonicParsing="false" prefHeight="47.0" prefWidth="103.0" text="Editar" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fx:id="imgEditar" fitHeight="91.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/editar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnReportes" mnemonicParsing="false" prefHeight="43.0" prefWidth="102.0" text="Reportes" GridPane.rowIndex="3">
+               <graphic>
+                  <ImageView fx:id="imgReportes" fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/Reportes.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </GridPane>
       <Button fx:id="btnRegresar" layoutX="674.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="72.0" prefWidth="95.0">

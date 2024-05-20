@@ -22,7 +22,7 @@
             <Image url="@../Images/fondo%20Empleados.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tblEmpleados" layoutX="51.0" layoutY="304.0" prefHeight="206.0" prefWidth="761.0">
+      <TableView fx:id="tblEmpleados" layoutX="51.0" layoutY="304.0" onMouseClicked="#seleccionarElenemtos" prefHeight="206.0" prefWidth="761.0">
         <columns>
           <TableColumn fx:id="colCodigoEmp" prefWidth="75.0" text="empleadoID" />
           <TableColumn fx:id="colNombreEmp" prefWidth="131.0" text="nombresEmpleado" />
