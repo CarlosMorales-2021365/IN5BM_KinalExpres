@@ -28,5 +28,10 @@ public class TiposProducto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @Override
+    public String toString(){
+        return getTipoProductoID() + " | " + getDescripcion();
+    }
 
 }

@@ -19,10 +19,6 @@ public class Compras {
         this.totalDocumento = totalDocumento;
     }
 
-    public Compras(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public int getNumeroDocumento() {
         return numeroDocumento;
     }
@@ -55,6 +51,9 @@ public class Compras {
         this.totalDocumento = totalDocumento;
     }
     
-    
+    @Override
+    public String toString(){
+        return getNumeroDocumento()+ " | " + getDescripcion();
+    }
 }
 

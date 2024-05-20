@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package org.carlosmorales.Controller;
 
 import java.net.URL;
@@ -14,10 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import org.carlosmorales.system.Main;
 
-/**
- *
- * @author informatica
- */
+
 public class MenuPrincipalController implements Initializable {
 
     private Main escenarioPrincipal;
@@ -31,6 +24,8 @@ public class MenuPrincipalController implements Initializable {
     MenuItem btnMenuTipoProducto;
     @FXML MenuItem btnCompras;
     @FXML MenuItem btnCargoEmpleado;
+    @FXML MenuItem btnProductos;
+    @FXML MenuItem btnDetalleCompras;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,6 +87,22 @@ public class MenuPrincipalController implements Initializable {
     public void setBtnCargoEmpleado(MenuItem btnCargoEmpleado) {
         this.btnCargoEmpleado = btnCargoEmpleado;
     }
+
+    public MenuItem getBtnProductos() {
+        return btnProductos;
+    }
+
+    public void setBtnProductos(MenuItem btnProductos) {
+        this.btnProductos = btnProductos;
+    }
+
+    public MenuItem getBtnDetalleCompras() {
+        return btnDetalleCompras;
+    }
+
+    public void setBtnDetalleCompras(MenuItem btnDetalleCompras) {
+        this.btnDetalleCompras = btnDetalleCompras;
+    }
     
     
 
@@ -116,6 +127,10 @@ public class MenuPrincipalController implements Initializable {
             escenarioPrincipal.MenuComprasView();
         }if (event.getSource()== btnCargoEmpleado){
             escenarioPrincipal.MenuCargoEmpleadoView();
+        }if (event.getSource()== btnProductos){
+            escenarioPrincipal.MenuProductosView();
+        }if (event.getSource() == btnDetalleCompras){
+            escenarioPrincipal.MenuDetallesCompraView();
         }
         
 

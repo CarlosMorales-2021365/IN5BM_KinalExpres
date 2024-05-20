@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javax.swing.JOptionPane;
 import org.carlosmorales.Bean.Clientes;
 import org.carlosmorales.Bean.Proveedores;
 
@@ -60,7 +61,7 @@ public class MenuProveedorController implements Initializable {
     @FXML private ImageView imgAgregar;
     @FXML private ImageView imgEliminar;
     @FXML private ImageView imgEditar;
-    @FXML private ImageView imgReportes;
+    @FXML private ImageView imgReporte;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,7 +113,204 @@ public class MenuProveedorController implements Initializable {
         return listaProveedores = FXCollections.observableList(lista);
     }
     
-
+    public void Agregar(){
+        switch (tipoDeOperaciones){
+            case NINGUNO:
+                activarControles();
+                btnAgregar.setText("Guardar");
+                btnEliminar.setText("Cancelar");
+                btnEditar.setDisable(true);
+                btnReporte.setDisable(true);
+                imgAgregar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+                imgEliminar.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+                tipoDeOperaciones = operaciones.ACTUALIZAR;
+                break;
+            case ACTUALIZAR:
+                guardar();
+                desactivarControles();
+                limpiarControles();
+                btnAgregar.setText("Agregar");
+                btnEliminar.setText("Eliminar");
+                btnEditar.setDisable(false);
+                btnReporte.setDisable(false);
+                imgAgregar.setImage(new Image("/org/carlosmorales/Images/AgregarClientes.png"));
+                imgEliminar.setImage(new Image("/org/carlosmorales/Images/EliminarClientes.png"));
+                tipoDeOperaciones = operaciones.NINGUNO;
+                break;
+        }
+    }
+    
+    public void guardar(){
+        Proveedores registro = new Proveedores();
+        registro.setProveedorID(Integer.parseInt(txtCodigoP.getText()));
+        registro.setNombresProveedor(txtNombreP.getText());
+        registro.setApellidosProveedor(txtApellidoP.getText());
+        registro.setNitProveedor(txtNitP.getText());
+        registro.setDireccionProveedor(txtDireccionP.getText());
+        registro.setRazonSocial(txtRazonSocial.getText());
+        registro.setContactoPrincipal(txtContactoPrincipal.getText());
+        registro.setPaginaWeb(txtPaginaWeb.getText());
+        try{
+            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_AgregarProveedores (?,?,?,?,?,?,?,?)}");
+            procedimiento.setInt(1, registro.getProveedorID());
+            procedimiento.setString(2, registro.getNombresProveedor());
+            procedimiento.setString(3, registro.getApellidosProveedor());
+            procedimiento.setString(4, registro.getNitProveedor());
+            procedimiento.setString(5, registro.getDireccionProveedor());
+            procedimiento.setString(6, registro.getRazonSocial());
+            procedimiento.setString(7, registro.getContactoPrincipal());
+            procedimiento.setString(8, registro.getPaginaWeb());
+            procedimiento.execute();
+            listaProveedores.add(registro);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        
+    }
+    
+    public void reporte(){
+        switch(tipoDeOperaciones){
+            case ACTUALIZAR:
+                desactivarControles();
+                limpiarControles();
+                btnEditar.setText("Editar");
+                btnReporte.setText("Reporte");
+                btnAgregar.setDisable(false);
+                btnEliminar.setDisable(false);
+                imgEditar.setImage(new Image("org/carlosmorales/Images/EditarClientes.png"));
+                imgReporte.setImage(new Image("/org/carlosmorales/Images/Reportes.png"));
+                tipoDeOperaciones = operaciones.NINGUNO;
+                break;
+        }
+    }
+    
+    public void eliminar(){
+        switch(tipoDeOperaciones){
+            case ACTUALIZAR:
+             desactivarControles();
+             limpiarControles(); 
+             btnAgregar.setText("Agregar");
+             btnEliminar.setText("Eliminar");
+             btnEditar.setDisable(false);
+             btnReporte.setDisable(false);
+             imgAgregar.setImage(new Image("/org/carlosmorales/Images/AgregarClientes.png"));
+             imgEliminar.setImage(new Image("/org/carlosmorales/Images/EliminarClientes.png"));
+             tipoDeOperaciones = operaciones.NINGUNO;
+             break;
+            default:
+                if(tblProveedor.getSelectionModel().getSelectedItem() !=null){
+                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Proveedor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (respuesta == JOptionPane.YES_NO_OPTION){
+                        try{
+                            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_EliminarProveedor(?)}");
+                            procedimiento.setInt(1, ((Proveedores) tblProveedor.getSelectionModel().getSelectedItem()).getProveedorID());
+                            procedimiento.execute();
+                            listaProveedores.remove(tblProveedor.getSelectionModel().getSelectedItem());
+                            limpiarControles();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                } else{
+                    JOptionPane.showMessageDialog(null, "Debe de seleccionar un proveedor para eliminar");
+                }
+        }
+    }
+    
+    public void editar(){
+        switch(tipoDeOperaciones){
+            case NINGUNO:
+                if(tblProveedor.getSelectionModel().getSelectedItem() !=null){
+                    btnEditar.setText("Guardar");
+                    btnReporte.setText("Cancelar");
+                    btnAgregar.setDisable(true);
+                    btnEliminar.setDisable(true);
+                    imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+                    imgReporte.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+                    activarControles();
+                    txtCodigoP.setEditable(false);
+                    tipoDeOperaciones = operaciones.ACTUALIZAR;
+                }else{
+                    JOptionPane.showMessageDialog(null, "debe de selscionar un Proveedor para actualizar");
+                }
+                break;
+            case ACTUALIZAR:
+               actualizar();
+               btnEditar.setText("Guardar");
+               btnReporte.setText("Cancelar");
+               btnAgregar.setDisable(true);
+               btnEliminar.setDisable(true);
+               imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+               imgReporte.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+               desactivarControles();
+               limpiarControles();
+               txtCodigoP.setEditable(false);
+               tipoDeOperaciones = operaciones.ACTUALIZAR;
+               cargarDatos();
+               break;
+        }
+    }
+    
+    public void actualizar(){
+        try{
+            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_ActualizarProveedor (?,?,?,?,?,?,?,?)}");
+            Proveedores registro = (Proveedores) tblProveedor.getSelectionModel().getSelectedItem();
+            
+            registro.setProveedorID(Integer.parseInt(txtCodigoP.getText()));
+            registro.setNombresProveedor(txtNombreP.getText());
+            registro.setApellidosProveedor(txtApellidoP.getText());
+            registro.setNitProveedor(txtNitP.getText());
+            registro.setDireccionProveedor(txtDireccionP.getText());
+            registro.setRazonSocial(txtRazonSocial.getText());
+            registro.setContactoPrincipal(txtContactoPrincipal.getText());
+            registro.setPaginaWeb(txtPaginaWeb.getText());
+            procedimiento.setInt(1, registro.getProveedorID());
+            procedimiento.setString(2, registro.getNombresProveedor());
+            procedimiento.setString(3, registro.getApellidosProveedor());
+            procedimiento.setString(4, registro.getNitProveedor());
+            procedimiento.setString(5, registro.getDireccionProveedor());
+            procedimiento.setString(6, registro.getRazonSocial());
+            procedimiento.setString(7, registro.getContactoPrincipal());
+            procedimiento.setString(8, registro.getPaginaWeb());
+            procedimiento.execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void desactivarControles(){
+        txtCodigoP.setEditable(false);
+        txtNombreP.setEditable(false);
+        txtApellidoP.setEditable(false);
+        txtNitP.setEditable(false);
+        txtDireccionP.setEditable(false);
+        txtRazonSocial.setEditable(false);
+        txtContactoPrincipal.setEditable(false);
+        txtPaginaWeb.setEditable(false);
+    }
+    
+    public void activarControles(){
+        txtCodigoP.setEditable(true);
+        txtNombreP.setEditable(true);
+        txtApellidoP.setEditable(true);
+        txtNitP.setEditable(true);
+        txtDireccionP.setEditable(true);
+        txtRazonSocial.setEditable(true);
+        txtContactoPrincipal.setEditable(true);
+        txtPaginaWeb.setEditable(true);
+    }
+    
+    public void limpiarControles(){
+        txtCodigoP.clear();
+        txtNombreP.clear();
+        txtApellidoP.clear();
+        txtNitP.clear();
+        txtDireccionP.clear();
+        txtRazonSocial.clear();
+        txtContactoPrincipal.clear();
+        txtPaginaWeb.clear();
+    }
 
 
     public void setEcenarioPrincipal(Main ecenarioPrincipal) {

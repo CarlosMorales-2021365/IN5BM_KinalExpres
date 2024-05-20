@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 import org.carlosmorales.Controller.MenuCargoEmpleadoController;
 import org.carlosmorales.Controller.MenuClientesController;
 import org.carlosmorales.Controller.MenuComprasController;
+import org.carlosmorales.Controller.MenuDetalleCompraController;
 import org.carlosmorales.Controller.MenuPrincipalController;
+import org.carlosmorales.Controller.MenuProductosController;
 import org.carlosmorales.Controller.MenuProveedorController;
 import org.carlosmorales.Controller.MenuTiposProductoController;
 import org.carlosmorales.Controller.VistaProgramadorController;
@@ -123,6 +125,26 @@ public class Main extends Application {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    
+    public void MenuProductosView(){
+        try{
+            MenuProductosController menuProductosController = (MenuProductosController) cambiarEcena ("ProductoView.fxml",1134,629);
+            menuProductosController.setEscenarioPrincipal(this);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    public void MenuDetallesCompraView(){
+        try{
+            MenuDetalleCompraController menuDetalleCompraController  = (MenuDetalleCompraController) cambiarEcena ("DetalleComprasView.fxml", 792, 506);
+            menuDetalleCompraController.setEscenarioPrincipal(this);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public static void main(String[] args) {

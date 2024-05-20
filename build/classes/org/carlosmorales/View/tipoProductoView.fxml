@@ -25,10 +25,10 @@
             <Image url="@../Images/Logo.png" />
          </image>
       </ImageView>
-      <TableView layoutX="81.0" layoutY="157.0" prefHeight="206.0" prefWidth="283.0">
+      <TableView fx:id="tblTipoProductos" layoutX="81.0" layoutY="157.0" onMouseClicked="#seleccionarElementos" prefHeight="206.0" prefWidth="283.0">
         <columns>
-          <TableColumn prefWidth="153.0" text="tipoProductoID" />
-          <TableColumn prefWidth="129.0" text="descripcion" />
+          <TableColumn fx:id="colCodigoTipoP" prefWidth="153.0" text="tipoProductoID" />
+          <TableColumn fx:id="colDecripcionTipoP" prefWidth="129.0" text="descripcion" />
         </columns>
       </TableView>
       <GridPane layoutX="75.0" layoutY="42.0" prefHeight="90.0" prefWidth="270.0">
@@ -46,8 +46,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField prefHeight="34.0" prefWidth="139.0" GridPane.columnIndex="1" />
-            <TextField prefHeight="36.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCodigoTipoP" prefHeight="34.0" prefWidth="139.0" GridPane.columnIndex="1" />
+            <TextField fx:id="txtDecripcionTipoP" prefHeight="36.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="52.0" prefWidth="131.0" text="TipoProductoID">
                <font>
                   <Font size="18.0" />
@@ -66,33 +66,33 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" text="Agregar">
+            <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#Agregar" prefHeight="44.0" prefWidth="124.0" text="Agregar">
                <graphic>
-                  <ImageView fitHeight="88.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgAgregar" fitHeight="88.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/agregar.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="121.0" text="Eliminar" GridPane.rowIndex="1">
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" prefHeight="45.0" prefWidth="121.0" text="Eliminar" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="104.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgEliminar" fitHeight="104.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/eliminar.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="122.0" text="Editar" GridPane.rowIndex="2">
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="44.0" prefWidth="122.0" text="Editar" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="88.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgEditar" fitHeight="88.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/editar.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="130.0" text="Reportes" GridPane.rowIndex="3">
+            <Button fx:id="btnReportes" mnemonicParsing="false" onAction="#reporte" prefHeight="43.0" prefWidth="130.0" text="Reportes" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="94.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgReportes" fitHeight="94.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/Reportes.png" />
                      </image>

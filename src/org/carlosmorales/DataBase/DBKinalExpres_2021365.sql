@@ -40,7 +40,7 @@ primary key tipoProductoID(tipoProductoID)
 
 
 create table Compras(
-numeroDocumento int,
+numeroDocumento int not null,
 fechaDocumento date,
 descripcion varchar(60),
 totalDocumento decimal(10,2),
@@ -49,10 +49,40 @@ primary key PK_numeroDocumento(numeroDocumento)
 
 
 create table cargoEmpleado(
-cargoEmpleadoID int,
+cargoEmpleadoID int not null,
 nombreCargo varchar(45),
 descripocionCargo varchar(45),
 primary key PK_cargoEmpleadoID(cargoEmpleadoID)
+);
+
+create table Productos(
+	productoID varchar(15) not null,
+    descripcionProducto varchar(45),
+	precioUnitario decimal(10,2),
+	precioDocena decimal(10,2),
+	precioMayor decimal(10,2),
+	imagenProducto varchar(45),
+	existencia int,
+    tipoProductoID int,
+    proveedorID int,
+    primary key productoID (productoID),
+    constraint FK_Productos_tipoProducto foreign key Productos(tipoProductoID) 
+    references tipoProducto(tipoProductoID) on delete cascade,
+    constraint FK_Productos_Proveedores foreign key Productos(proveedorID) 
+    references Proveedores(proveedorID) on delete cascade
+);
+
+create table DetalleCompra(
+	detalleCompraID int not null,
+    costoUnitario decimal(10,2),
+    cantidad int,
+    productoID varchar(15),
+    numeroDocumento int,
+    primary key detalleCompraID (detalleCompraID),
+    constraint FK_DetalleCompra_Productos foreign key DetalleCompra(productoID) 
+    references Productos(productoID) on delete cascade,
+    constraint FK_DetalleCompra_Compras foreign key DetalleCompra(numeroDocumento) 
+    references Compras(numeroDocumento) on delete cascade
 );
 
 
@@ -89,6 +119,14 @@ begin
 end $$        
 delimiter ;
 call sp_MostrarClientes;
+
+delimiter $$
+create procedure sp_buscarClientes (in CliID int)
+begin 
+	select* from Clientes where Clientes.clienteID = CliID;
+end $$        
+delimiter ;
+call sp_buscarClientes(1);
 
 
 delimiter $$
@@ -151,6 +189,14 @@ end $$
 delimiter ;
 call sp_MostrarProveedores();
 
+delimiter $$
+create procedure sp_buscarProveedor (in provID int)
+begin 
+	select* from Proveedores where Proveedores.proveedorID = provID;
+end $$        
+delimiter ;
+call sp_buscarProveedor(1);
+
 
 delimiter $$
 create procedure sp_ActualizarProveedor (in provID int, nombProveedor varchar(60), in apeProveedor varchar(60), in nitProv varchar(10),direccionProv varchar (150), razSoc varchar(60), in contactoPrin varchar(100),in pagWeb varchar(50))
@@ -168,7 +214,7 @@ begin
 		proveedorID = provID;
 end $$        
 delimiter ;
-call sp_ActualizarProveedor (1,'Carlos','Estuardo','1234334134','ciudad capital','','tel: 23480098','www.CEProductosparaTodo');
+call sp_ActualizarProveedor (1,'Carlos','Estuardo','1234334134','ciudad capital','Germalidos','tel: 23480098','www.CEProductosparaTodo');
 
 
 delimiter $$
@@ -193,6 +239,7 @@ delimiter $$
 	end $$
 delimiter ;
 call sp_AgregartipoProducto(1,'productos de higiene perrsonal');
+call sp_AgregartipoProducto(2,'productos Lacteos');
 
 delimiter $$
 create procedure sp_MostrarTipoProducto ()
@@ -359,3 +406,151 @@ begin
 end $$        
 delimiter ;
 call sp_EliminarCargo(3);
+
+
+
+-- crud Productos 
+
+
+
+delimiter $$
+	create procedure sp_AgregarProducto(in prodID varchar(15), in descripProducto varchar(45), in precioU decimal(10,2), in precioD decimal(10,2), in precioM decimal(10,2), in exis int, in  tipoProdID int,in  provID int)
+    begin
+		insert into Productos (Productos.productoID,Productos.descripcionProducto,Productos.precioUnitario,Productos.precioDocena,Productos.precioMayor,Productos.existencia,Productos.tipoProductoID,Productos.proveedorID)
+         values(prodID,descripProducto ,precioU,precioD,precioM,exis,tipoProdID, provID);
+	end $$
+delimiter ;
+call sp_AgregarProducto(1,'Leche Entera','12.00','270.00','900.00',17,2,1);
+
+delimiter $$
+create procedure sp_MostrarProductos ()
+begin 
+	select
+   prod.productoID,
+   prod.descripcionProducto,
+   prod.precioUnitario,
+   prod.precioDocena,
+   prod.precioMayor,
+   prod.existencia,
+   prod.tipoProductoID,
+   prod.proveedorID
+    from Productos Prod;
+end $$        
+delimiter ;
+call sp_MostrarProductos ();
+
+
+
+delimiter $$
+create procedure sp_buscarProducto (in prodID varchar(15))
+begin 
+	select* from Productos where Productos.productoID=prodID;
+end $$        
+delimiter ;
+call sp_buscarProducto(1);
+
+
+delimiter $$
+create procedure sp_ActualizarProducto (in prodID varchar(15), in descripProducto varchar(45), in precioU decimal(10,2), in precioD decimal(10,2), in precioM decimal(10,2), in exis int, in  tipoProdID int,in  provID int)
+begin 
+	update Productos
+	set
+    descripcionProducto=descripProducto,
+    precioUnitario=precioU,
+    precioDocena=precioD,
+    precioMayor=precioM,
+    existencia=exis,
+    tipoProductoID=tipoProdID,
+    proveedorID=provID
+    where 
+	productoID=prodID;
+end $$        
+delimiter ;
+call sp_ActualizarProducto(1,'Leche Entera','12.00','270.00','880.00',17,2,1);
+
+
+delimiter $$
+create procedure sp_EliminarProducto (in prodID varchar(15))
+begin 
+	delete from Productos
+   where Productos.productoID=prodID;
+end $$        
+delimiter ;
+call sp_EliminarProducto(3);
+
+
+
+-- crud Detelle Compra
+
+create table DetalleCompra(
+	detalleCompraID int not null,
+    costoUnitario decimal(10,2),
+    cantidad int,
+    productoID varchar(15),
+    numeroDocumento int,
+    primary key detalleCompraID (detalleCompraID),
+    constraint FK_DetalleCompra_Productos foreign key DetalleCompra(productoID) 
+    references Productos(productoID) on delete cascade,
+    constraint FK_DetalleCompra_Compras foreign key DetalleCompra(numeroDocumento)
+    references Compras(numeroDocumento) on delete cascade
+);
+
+
+delimiter $$
+	create procedure sp_AgregarDetalleCompra(in detalleComID int,in costoUni decimal(10,2),in cant int, in prodID varchar(15),in numDocumento int)
+    begin
+		insert into DetalleCompra (DetalleCompra.detalleCompraID,DetalleCompra.costoUnitario,DetalleCompra.cantidad,DetalleCompra.productoID,DetalleCompra.numeroDocumento)
+         values(detalleComID,costoUni,cant,prodID,numDocumento);
+	end $$
+delimiter ;
+call sp_AgregarDetalleCompra(1,'12.00',3,'1',1);
+
+delimiter $$
+create procedure sp_MostrarDetallesCompras ()
+begin 
+	select
+   dc.detalleCompraID,
+   dc.costoUnitario,
+   dc.cantidad,
+   dc.productoID,
+   dc.numeroDocumento
+    from DetalleCompra dc;
+end $$        
+delimiter ;
+call sp_MostrarDetallesCompras ();
+
+
+
+delimiter $$
+create procedure sp_buscarDetalleCompra (in detalleComID int)
+begin 
+	select* from DetalleCompra where DetalleCompra.detalleCompraID=detalleComID;
+end $$        
+delimiter ;
+call sp_buscarDetalleCompra(1);
+
+
+delimiter $$
+create procedure sp_ActualizarDetalleCompra (in detalleComID int,in costoUni decimal(10,2),in cant int, in prodID varchar(15),in numDocumento int)
+begin 
+	update DetalleCompra
+	set
+   costoUnitario=costoUni,
+   cantidad=cant,
+   productoID=prodID,
+   numeroDocumento=numDocumento
+    where 
+	detalleCompraID=detalleComID;
+end $$        
+delimiter ;
+call sp_ActualizarDetalleCompra(1,'12.00',3,'1',1);
+
+
+delimiter $$
+create procedure sp_EliminarDetalleCompra (in detalleComID int)
+begin 
+	delete from DetalleCompra
+   where DetalleCompra.detalleCompraID=detalleComID;
+end $$        
+delimiter ;
+call sp_EliminarDetalleCompra(3);

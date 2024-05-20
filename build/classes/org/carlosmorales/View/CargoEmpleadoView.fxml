@@ -25,7 +25,7 @@
             <Image url="@../Images/Logo.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tblCargoEmpleado" layoutX="35.0" layoutY="185.0" prefHeight="208.0" prefWidth="423.0">
+      <TableView fx:id="tblCargoEmpleado" layoutX="35.0" layoutY="185.0" onMouseClicked="#seleccionarElementos" prefHeight="208.0" prefWidth="423.0">
         <columns>
           <TableColumn fx:id="colCargoE" prefWidth="146.0" text="cargoEmpleadoID " />
           <TableColumn fx:id="colNombreCargo" prefWidth="134.0" text="nombreCargo" />
@@ -74,7 +74,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnAgregar" mnemonicParsing="false" prefHeight="53.0" prefWidth="118.0" text="Agregar">
+            <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#Agregar" prefHeight="53.0" prefWidth="118.0" text="Agregar">
                <graphic>
                   <ImageView fx:id="imgAgregar" fitHeight="99.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -83,16 +83,16 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="49.0" prefWidth="118.0" text="Eliminar" GridPane.rowIndex="1">
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" prefHeight="49.0" prefWidth="118.0" text="Eliminar" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="87.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgEliminar" fitHeight="87.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/eliminar.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnEditar" mnemonicParsing="false" prefHeight="51.0" prefWidth="111.0" text="Editar" GridPane.rowIndex="2">
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="51.0" prefWidth="111.0" text="Editar" GridPane.rowIndex="2">
                <graphic>
                   <ImageView fx:id="imgEditar" fitHeight="107.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -101,7 +101,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnReportes" mnemonicParsing="false" prefHeight="48.0" prefWidth="121.0" text="Reportes" GridPane.rowIndex="3">
+            <Button fx:id="btnReportes" mnemonicParsing="false" onAction="#reporte" prefHeight="48.0" prefWidth="121.0" text="Reportes" GridPane.rowIndex="3">
                <graphic>
                   <ImageView fx:id="imgReportes" fitHeight="106.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                      <image>

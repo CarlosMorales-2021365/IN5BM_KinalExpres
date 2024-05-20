@@ -56,7 +56,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnAgregar" mnemonicParsing="false" prefHeight="48.0" prefWidth="119.0" text="Agregar" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#Agregar" prefHeight="48.0" prefWidth="119.0" text="Agregar" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <graphic>
                   <ImageView fx:id="imgAgregar" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -64,7 +64,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="btnEditar" mnemonicParsing="false" prefHeight="48.0" prefWidth="112.0" text="Editar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="48.0" prefWidth="112.0" text="Editar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <graphic>
                   <ImageView fx:id="imgEditar" fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -72,7 +72,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="51.0" prefWidth="119.0" text="Eliminar" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" prefHeight="51.0" prefWidth="119.0" text="Eliminar" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <graphic>
                   <ImageView fx:id="imgEliminar" fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -80,9 +80,9 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button fx:id="btnReportes" mnemonicParsing="false" prefHeight="49.0" prefWidth="113.0" text="Reportes" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Button fx:id="btnReporte" mnemonicParsing="false" onAction="#reporte" prefHeight="49.0" prefWidth="113.0" text="Reportes" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fx:id="imgReportes" fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgReporte" fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/Reportes.png" />
                      </image>

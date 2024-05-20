@@ -141,7 +141,6 @@ public class MenuClientesController implements Initializable {
                 btnReporte.setDisable(true);
                 imgAgregar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
                 imgEliminar.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
-                activarControles();
                 tipoDeOperaciones = operaciones.ACTUALIZAR;
                 break;
             case ACTUALIZAR:
@@ -154,8 +153,6 @@ public class MenuClientesController implements Initializable {
                 btnReporte.setDisable(false);
                 imgAgregar.setImage(new Image("/org/carlosmorales/Images/AgregarClientes.png"));
                 imgEliminar.setImage(new Image("/org/carlosmorales/Images/EliminarClientes.png"));
-                desactivarControles();
-                limpiarConroles();
                 tipoDeOperaciones = operaciones.NINGUNO;
                 break;
         }
@@ -217,7 +214,7 @@ public class MenuClientesController implements Initializable {
                 break;
             default:
                 if (tblClientes.getSelectionModel().getSelectedItem() != null) {
-                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion de registro", "Eliminar Clientes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion de registro", "Eliminar Cliente", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (respuesta == JOptionPane.YES_NO_OPTION) {
                         try {
                             PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_EliminarCliente(?)}");
@@ -242,8 +239,8 @@ public class MenuClientesController implements Initializable {
                 if (tblClientes.getSelectionModel().getSelectedItem() != null) {
                     btnEditar.setText("Guardar");
                     btnReporte.setText("Cancelar");
-                    btnEditar.setDisable(false);
-                    btnReporte.setDisable(false);
+                    btnAgregar.setDisable(true);
+                    btnEliminar.setDisable(true);
                     imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
                     imgReportes.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
                     activarControles();
@@ -257,8 +254,8 @@ public class MenuClientesController implements Initializable {
                 actualizar();
                 btnEditar.setText("Guardar");
                 btnReporte.setText("Cancelar");
-                btnEditar.setDisable(false);
-                btnReporte.setDisable(false);
+                btnAgregar.setDisable(false);
+                btnEliminar.setDisable(false);
                 imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
                 imgReportes.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
                 desactivarControles();
