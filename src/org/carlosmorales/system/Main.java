@@ -22,6 +22,7 @@ import org.carlosmorales.Controller.MenuProductosController;
 import org.carlosmorales.Controller.MenuProveedorController;
 import org.carlosmorales.Controller.MenuTiposProductoController;
 import org.carlosmorales.Controller.VistaProgramadorController;
+import org.carlosmorales.Controller.MenuEmpleadosController;
 
 /*
 nombre Carlos Morales
@@ -145,6 +146,15 @@ public class Main extends Application {
             System.out.println(e.getMessage());
         }
         
+    }
+    
+    public void MenuEmpleadosView(){
+        try{
+            MenuEmpleadosController menuEmpleadosController = (MenuEmpleadosController) cambiarEcena ("EmpleadosView.fxml",974,594);
+            menuEmpleadosController.setEscenarioPrincipal(this);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
