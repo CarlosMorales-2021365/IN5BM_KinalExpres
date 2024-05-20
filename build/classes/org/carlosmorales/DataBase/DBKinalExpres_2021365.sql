@@ -86,7 +86,19 @@ create table DetalleCompra(
 );
 
 
-
+create table Empleados
+(
+	empleadoID int not null,
+    nombresEmpleado varchar(50),
+    apellidosEmpleado varchar(50),
+    sueldo decimal (10,2),
+    direccion varchar (150),
+    turno varchar(15),
+    cargoEmpleadoID int,
+    primary key empleadoID (empleadoID),
+    constraint FK_Empleados_cargoEmpleado foreign key Empleados(cargoEmpleadoID) 
+    references cargoEmpleado (cargoEmpleadoID) on delete cascade
+);
 
 
 
@@ -503,7 +515,7 @@ delimiter $$
          values(detalleComID,costoUni,cant,prodID,numDocumento);
 	end $$
 delimiter ;
-call sp_AgregarDetalleCompra(1,'12.00',3,'1',2);
+call sp_AgregarDetalleCompra(1,'12.00',3,'1',1);
 
 delimiter $$
 create procedure sp_MostrarDetallesCompras ()
@@ -527,7 +539,7 @@ begin
 	select* from DetalleCompra where DetalleCompra.detalleCompraID=detalleComID;
 end $$        
 delimiter ;
-call sp_buscarProducto(1);
+call sp_buscarDetalleCompra(1);
 
 
 delimiter $$
@@ -543,7 +555,7 @@ begin
 	detalleCompraID=detalleComID;
 end $$        
 delimiter ;
-call sp_ActualizarDetalleCompra(1,'12.00',3,1,2);
+call sp_ActualizarDetalleCompra(1,'12.00',3,'1',1);
 
 
 delimiter $$

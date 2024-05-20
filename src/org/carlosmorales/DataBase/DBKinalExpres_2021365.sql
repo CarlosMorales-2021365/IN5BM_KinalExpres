@@ -494,18 +494,6 @@ call sp_EliminarProducto(3);
 
 -- crud Detelle Compra
 
-create table DetalleCompra(
-	detalleCompraID int not null,
-    costoUnitario decimal(10,2),
-    cantidad int,
-    productoID varchar(15),
-    numeroDocumento int,
-    primary key detalleCompraID (detalleCompraID),
-    constraint FK_DetalleCompra_Productos foreign key DetalleCompra(productoID) 
-    references Productos(productoID) on delete cascade,
-    constraint FK_DetalleCompra_Compras foreign key DetalleCompra(numeroDocumento)
-    references Compras(numeroDocumento) on delete cascade
-);
 
 
 delimiter $$
@@ -566,3 +554,85 @@ begin
 end $$        
 delimiter ;
 call sp_EliminarDetalleCompra(3);
+
+
+-- crud Empleados
+
+
+create table Empleados
+(
+	empleadoID int not null,
+    nombresEmpleado varchar(50),
+    apellidosEmpleado varchar(50),
+    sueldo decimal (10,2),
+    direccion varchar (150),
+    turno varchar(15),
+    cargoEmpleadoID int,
+    primary key empleadoID (empleadoID),
+    constraint FK_Empleados_cargoEmpleado foreign key Empleados(cargoEmpleadoID) 
+    references cargoEmpleado (cargoEmpleadoID) on delete cascade
+);
+
+
+delimiter $$
+	create procedure sp_AgregarEmpleado(in empID int, in nomEmpleado varchar(50), in apeEmpleado varchar(50), in suel decimal (10,2), in  direc varchar (150),in turn varchar(15), in cargoEmpID int)
+    begin
+		insert into Empleados (Empleados.empleadoID, Empleados.nombresEmpleado, Empleados.apellidosEmpleado,Empleados.sueldo,Empleados.direccion,Empleados.turno,Empleados.cargoEmpleadoID)
+         values(empID,nomEmpleado,apeEmpleado,suel,direc,turn,cargoEmpID);
+	end $$
+delimiter ;
+call sp_AgregarEmpleado(1,'Erick','Garcia','10000.00','29 calle 15-76 zona 5','1 Matutino',1);
+
+delimiter $$
+create procedure sp_MostrarEmpleados ()
+begin 
+	select
+   e.empleadoID,
+   e.nombresEmpleado,
+   e.apellidosEmpleado,
+   e.sueldo,
+   e.direccion,
+   e.turno,
+   e.cargoEmpleadoID
+    from Empleados e;
+end $$        
+delimiter ;
+call sp_MostrarEmpleados ();
+
+
+
+delimiter $$
+create procedure sp_buscarEmpleado (in empID int)
+begin 
+	select* from Empleados where Empleados.empleadoID=empID;
+end $$        
+delimiter ;
+call sp_buscarEmpleado(1);
+
+
+delimiter $$
+create procedure sp_ActualizarEmpleado (in empID int, in nomEmpleado varchar(50), in apeEmpleado varchar(50), in suel decimal (10,2), in  direc varchar (150),in turn varchar(15), in cargoEmpID int)
+begin 
+	update Empleados
+	set
+   nombresEmpleado=nomEmpleado,
+   apellidosEmpleado=apeEmpleado,
+   sueldo=suel,
+   direccion=direc,
+   turno=turn,
+   cargoEmpleadoID=cargoEmpID
+    where 
+	empleadoID=empID;
+end $$        
+delimiter ;
+call sp_ActualizarEmpleado(1,'Erick','Garcia','10000.00','29 calle 15-76 zona 5','1 Matutino',1);
+
+
+delimiter $$
+create procedure sp_EliminarEmpleado (in empID int)
+begin 
+	delete from Empleados
+   where Empleados.empleadoID=empID;
+end $$        
+delimiter ;
+call sp_EliminarEmpleado(3);
