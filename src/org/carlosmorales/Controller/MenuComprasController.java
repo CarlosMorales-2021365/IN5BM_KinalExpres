@@ -171,7 +171,7 @@ public class MenuComprasController implements Initializable {
              break;
             default:
                 if(tblCompras.getSelectionModel().getSelectedItem() !=null){
-                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Proveedor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Compra", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (respuesta == JOptionPane.YES_NO_OPTION){
                         try{
                             PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_EliminarCompra(?)}");
@@ -184,7 +184,7 @@ public class MenuComprasController implements Initializable {
                         }
                     }
                 } else{
-                    JOptionPane.showMessageDialog(null, "Debe de seleccionar un proveedor para eliminar");
+                    JOptionPane.showMessageDialog(null, "Debe de seleccionar una compra para eliminar");
                 }
         }
     }
@@ -203,7 +203,7 @@ public class MenuComprasController implements Initializable {
                     txtNumeroD.setEditable(false);
                     tipoDeOperaciones = operaciones.ACTUALIZAR;
                 }else{
-                    JOptionPane.showMessageDialog(null, "debe de selscionar un Proveedor para actualizar");
+                    JOptionPane.showMessageDialog(null, "debe de selscionar una compra para actualizar");
                 }
                 break;
             case ACTUALIZAR:

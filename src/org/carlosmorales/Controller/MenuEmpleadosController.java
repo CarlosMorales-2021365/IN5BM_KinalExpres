@@ -17,7 +17,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javax.swing.JOptionPane;
 import org.carlosmorales.Bean.CargoEmpleado;
 import org.carlosmorales.Bean.Empleados;
 import org.carlosmorales.DB.Conexion;
@@ -66,12 +68,12 @@ public class MenuEmpleadosController implements Initializable {
      public void cargarDatos(){
         tblEmpleados.setItems(getEmpleado());
         colCodigoEmp.setCellValueFactory(new PropertyValueFactory<Empleados, Integer>("empleadoID"));
-        colNombreEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("descripcionProducto"));
-        colApellidosEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("precionUnitario"));
-        colSueldo.setCellValueFactory(new PropertyValueFactory<Empleados, Double>("precioDocena"));
-        colDireccionEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("precioMayor"));
-        colTurno.setCellValueFactory(new PropertyValueFactory<Empleados, String>("existencia"));
-        colCargoE.setCellValueFactory(new PropertyValueFactory<Empleados, Integer>("tipoProductoID"));
+        colNombreEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("nombresEmpleado"));
+        colApellidosEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("apellidosEmpleado"));
+        colSueldo.setCellValueFactory(new PropertyValueFactory<Empleados, Double>("sueldo"));
+        colDireccionEmp.setCellValueFactory(new PropertyValueFactory<Empleados, String>("direccion"));
+        colTurno.setCellValueFactory(new PropertyValueFactory<Empleados, String>("turno"));
+        colCargoE.setCellValueFactory(new PropertyValueFactory<Empleados, Integer>("cargoEmpleadoID"));
         
     }
      
@@ -92,7 +94,7 @@ public class MenuEmpleadosController implements Initializable {
             procedimiento.setInt(1,cargoEmpleadoID);
             ResultSet registro = procedimiento.executeQuery();
             while(registro.next()){
-               resultado = new CargoEmpleado (registro.getInt("CargoEmpleado"),
+               resultado = new CargoEmpleado (registro.getInt("cargoEmpleadoID"),
                        registro.getString("nombreCargo"),
                        registro.getString("descripocionCargo")
                );
@@ -141,6 +143,167 @@ public class MenuEmpleadosController implements Initializable {
         }
         return listaCargo = FXCollections.observableList(lista);
     }
+    
+    public void Agregar(){
+        switch (tipoDeOperaciones){
+            case NINGUNO:
+                activarControles();
+                btnAgregar.setText("Guardar");
+                btnEliminar.setText("Cancelar");
+                btnEditar.setDisable(true);
+                btnReportes.setDisable(true);
+                imgAgregar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+                imgEliminar.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+                tipoDeOperaciones = operaciones.ACTUALIZAR;
+                break;
+            case ACTUALIZAR:
+                guardar();
+                desactivarControles();
+                limpiarControles();
+                btnAgregar.setText("Agregar");
+                btnEliminar.setText("Eliminar");
+                btnEditar.setDisable(false);
+                btnReportes.setDisable(false);
+                imgAgregar.setImage(new Image("/org/carlosmorales/Images/agregar.png"));
+                imgEliminar.setImage(new Image("/org/carlosmorales/Images/eliminar.png"));
+                tipoDeOperaciones = operaciones.NINGUNO;
+                cargarDatos();
+                break;
+        }
+    }
+    
+    public void guardar(){
+        Empleados registro = new Empleados();
+        registro.setEmpleadoID(Integer.parseInt(txtCodigoEmp.getText()));
+        registro.setNombresEmpleado(txtNombreEmp.getText());
+        registro.setApellidosEmpleado(txtApellidosEmp.getText());
+        registro.setSueldo(Double.parseDouble(txtSueldo.getText()));
+        registro.setDireccion(txtDireccionEmp.getText());
+        registro.setTurno(txtTurno.getText()); 
+        registro.setCargoEmpleadoID(((CargoEmpleado)cmbCargoE.getSelectionModel().getSelectedItem()).getCargoEmpleadoID());
+        try{
+            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_AgregarEmpleado(?,?,?,?,?,?,?)}");
+            procedimiento.setInt(1, registro.getEmpleadoID());
+            procedimiento.setString(2, registro.getNombresEmpleado());
+            procedimiento.setString(3, registro.getApellidosEmpleado());
+            procedimiento.setDouble(4, registro.getSueldo());
+            procedimiento.setString(5, registro.getDireccion());
+            procedimiento.setString(6, registro.getTurno());
+            procedimiento.setInt(7, registro.getCargoEmpleadoID());
+            procedimiento.execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void reporte(){
+        switch(tipoDeOperaciones){
+            case ACTUALIZAR:
+                desactivarControles();
+                limpiarControles();
+                btnEditar.setText("Editar");
+                btnReportes.setText("Reporte");
+                btnAgregar.setDisable(false);
+                btnEliminar.setDisable(false);
+                imgEditar.setImage(new Image("org/carlosmorales/Images/editar.png"));
+                imgReportes.setImage(new Image("/org/carlosmorales/Images/Reportes.png"));
+                tipoDeOperaciones = operaciones.NINGUNO;
+                break;
+        }
+    }
+    
+    public void eliminar(){
+        switch(tipoDeOperaciones){
+            case ACTUALIZAR:
+             desactivarControles();
+             limpiarControles(); 
+             btnAgregar.setText("Agregar");
+             btnEliminar.setText("Eliminar");
+             btnEditar.setDisable(false);
+             btnReportes.setDisable(false);
+             imgAgregar.setImage(new Image("/org/carlosmorales/Images/agregar.png"));
+             imgEliminar.setImage(new Image("/org/carlosmorales/Images/eliminar.png"));
+             tipoDeOperaciones = operaciones.NINGUNO;
+             break;
+            default:
+                if(tblEmpleados.getSelectionModel().getSelectedItem() !=null){
+                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Empleado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (respuesta == JOptionPane.YES_NO_OPTION){
+                        try{
+                            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_EliminarEmpleado(?)}");
+                            procedimiento.setInt(1, ((Empleados)tblEmpleados.getSelectionModel().getSelectedItem()).getEmpleadoID());
+                            procedimiento.execute();
+                            listaEmpleados.remove(tblEmpleados.getSelectionModel().getSelectedItem());
+                            limpiarControles();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                } else{
+                    JOptionPane.showMessageDialog(null, "Debe de seleccionar un Empleado para eliminar");
+                }
+        }
+    }
+    
+    public void editar(){
+        switch(tipoDeOperaciones){
+            case NINGUNO:
+                if(tblEmpleados.getSelectionModel().getSelectedItem() !=null){
+                    btnEditar.setText("Guardar");
+                    btnReportes.setText("Cancelar");
+                    btnAgregar.setDisable(true);
+                    btnEliminar.setDisable(true);
+                    imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+                    imgReportes.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+                    activarControles();
+                    txtCodigoEmp.setEditable(false);
+                    tipoDeOperaciones = operaciones.ACTUALIZAR;
+                }else{
+                    JOptionPane.showMessageDialog(null, "debe de selscionar un Empleado para actualizar");
+                }
+                break;
+            case ACTUALIZAR:
+               actualizar();
+               btnEditar.setText("Guardar");
+               btnReportes.setText("Cancelar");
+               btnAgregar.setDisable(true);
+               btnEliminar.setDisable(true);
+               imgEditar.setImage(new Image("/org/carlosmorales/Images/guardar.png"));
+               imgReportes.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
+               desactivarControles();
+               limpiarControles();
+               txtCodigoEmp.setEditable(false);
+               tipoDeOperaciones = operaciones.ACTUALIZAR;
+               cargarDatos();
+               break;
+        }
+    }
+    
+    public void actualizar(){
+        try{
+            PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_ActualizarEmpleado (?,?,?,?,?,?,?)}");
+            Empleados registro = (Empleados) tblEmpleados.getSelectionModel().getSelectedItem();
+            
+            registro.setEmpleadoID(Integer.parseInt(txtCodigoEmp.getText()));
+            registro.setNombresEmpleado(txtNombreEmp.getText());
+            registro.setApellidosEmpleado(txtApellidosEmp.getText());
+            registro.setSueldo(Double.parseDouble(txtSueldo.getText()));
+            registro.setDireccion(txtDireccionEmp.getText());
+            registro.setTurno(txtTurno.getText());
+            registro.setCargoEmpleadoID(((CargoEmpleado)cmbCargoE.getSelectionModel().getSelectedItem()).getCargoEmpleadoID());
+            procedimiento.setInt(1, registro.getEmpleadoID());
+            procedimiento.setString(2, registro.getNombresEmpleado());
+            procedimiento.setString(3, registro.getApellidosEmpleado());
+            procedimiento.setDouble(4, registro.getSueldo());
+            procedimiento.setString(5, registro.getDireccion());
+            procedimiento.setString(6, registro.getTurno());
+            procedimiento.setInt(7, registro.getCargoEmpleadoID());
+            procedimiento.execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     
     public void desactivarControles(){
        txtCodigoEmp.setEditable(false);

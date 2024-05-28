@@ -86,8 +86,7 @@ create table DetalleCompra(
 );
 
 
-create table Empleados
-(
+create table Empleados(
 	empleadoID int not null,
     nombresEmpleado varchar(50),
     apellidosEmpleado varchar(50),
@@ -100,9 +99,59 @@ create table Empleados
     references cargoEmpleado (cargoEmpleadoID) on delete cascade
 );
 
+create table TelefonoProveedor(
+	telefonoID int not null,
+    numeroPrincipal varchar(8),
+    numeroSecundario varchar(8),
+    observaciones varchar(45),
+    proveedorID int,
+    primary key TelefonoProveedor (telefonoID),
+    constraint FK_TelefonoProveedor_Proveedores foreign key TelefonoProveedor(proveedorID) 
+    references Proveedores(proveedorID) on delete cascade
+);
+
+create table EmailProveedor(
+	emailID int not null,
+    emailProveedor varchar(50),
+    descripcion varchar(100),
+	proveedorID int,
+    primary key EmailProveedor(emailID),
+    constraint FK_EmailProveedor_Proveedores foreign key EmailProveedor(proveedorID) 
+    references Proveedores(proveedorID) on delete cascade
+);
+
+create table Factura(
+	facturaID int not null,
+    estado varchar(50),
+    totalFactura decimal(10,2),
+    fechaFactura varchar(45),
+    clienteID int,
+    empleadoID int,
+    primary key Factura(facturaID),
+    constraint FK_Factura_Clientes foreign key Factura(clienteID) 
+    references Clientes(clienteID) on delete cascade,
+    constraint FK_Factura_Empleados foreign key Factura(empleadoID) 
+    references Empleados(empleadoID) on delete cascade
+);
+
+create table DetalleFactura(
+	detalleFacturaID int not null,
+    precioUnitario decimal(10,2),
+    cantidad int,
+    facturaID int,
+    productoID varchar(15),
+    primary key DetalleFactura(detalleFacturaID),
+    constraint FK_DetalleFactura_Factura foreign key DetalleFactura(facturaID) 
+    references Factura(facturaID) on delete cascade,
+    constraint FK_DetalleFactura_Productos foreign key DetalleFactura(productoID) 
+    references Productos(productoID) on delete cascade
+);
 
 
--- Crud Clientes
+
+-- ---------------------------------------------------------------------Crud Clientes -------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
+
 delimiter $$
 	create procedure sp_AgregarClientes(in CliID int, in nomCliente varchar(50), in apeCliente varchar (50), in cliNit varchar(10), in telCliente varchar(8), in direccionCli varchar(150),in correoCli varchar(45))
     begin
@@ -173,7 +222,9 @@ call sp_EliminarCliente(3);
 
 
 
--- Crud Proveedor
+-- -----------------------------------------------------------------Crud Proveedor ---------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 delimiter $$
 	create procedure sp_AgregarProveedores(in provID int, nombProveedor varchar(60), in apeProveedor varchar(60), in nitProv varchar(10),direccionProv varchar (150), razSoc varchar(60), in contactoPrin varchar(100),in pagWeb varchar(50))
@@ -239,9 +290,10 @@ delimiter ;
 call sp_EliminarProveedor(3);
 
 
--- curd tipo Producto
+-- ------------------------------------------------------------------------curd tipo Producto -----------------------------------------------------------
+-- -------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+ 
 
 delimiter $$
 	create procedure sp_AgregartipoProducto(in tipoProdID int, descrip varchar(45))
@@ -299,7 +351,8 @@ call sp_EliminarTipoProducto(3);
 
 
 
--- crud compras 
+-- -------------------------------------------------------------------------------crud compras ----------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 delimiter $$
@@ -360,7 +413,8 @@ delimiter ;
 call sp_EliminarCompra(3);
 
 
--- crud cargo empleado
+-- ----------------------------------------------------------------------crud cargo empleado----------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -421,7 +475,8 @@ call sp_EliminarCargo(3);
 
 
 
--- crud Productos 
+-- -----------------------------------------------------------crud Productos ----------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------ 
 
 
 
@@ -492,7 +547,8 @@ call sp_EliminarProducto(3);
 
 
 
--- crud Detelle Compra
+-- --------------------------------------------------------crud Detelle Compra---------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -556,9 +612,8 @@ delimiter ;
 call sp_EliminarDetalleCompra(3);
 
 
--- crud Empleados
-
-
+-- ----------------------------------------------------------crud Empleados ----------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 delimiter $$
@@ -623,3 +678,266 @@ begin
 end $$        
 delimiter ;
 call sp_EliminarEmpleado(3);
+
+
+-- --------------------------------------------------------crud telefono proveedor----------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------
+
+delimiter $$
+	create procedure sp_AgregarTelefono(in telID int, in numPrincipal varchar(8),in numSecundario varchar(8),in observ varchar(45),in provID int)
+    begin
+		insert into TelefonoProveedor (TelefonoProveedor.telefonoID,TelefonoProveedor.numeroPrincipal,TelefonoProveedor.numeroSecundario,TelefonoProveedor.observaciones,TelefonoProveedor.proveedorID)
+         values(telID,numPrincipal,numSecundario,observ,provID);
+	end $$
+delimiter ;
+call sp_AgregarTelefono(1,'12329080','29748476','',1);
+
+delimiter $$
+create procedure sp_MostrarTelefonos ()
+begin 
+	select
+   t.telefonoID,
+   t.numeroPrincipal,
+   t.numeroSecundario,
+   t.observaciones,
+   t.proveedorID
+    from TelefonoProveedor t;
+end $$        
+delimiter ;
+call sp_MostrarTelefonos ();
+
+
+
+delimiter $$
+create procedure sp_buscarTelefono (in telID int)
+begin 
+	select* from TelefonoProveedor where TelefonoProveedor.telefonoID=telID;
+end $$        
+delimiter ;
+call sp_buscarTelefono(1);
+
+
+delimiter $$
+create procedure sp_ActualizarTelefono (in telID int, in numPrincipal varchar(8),in numSecundario varchar(8),in observ varchar(45),in provID int)
+begin 
+	update TelefonoProveedor
+	set
+   numeroPrincipal=numPrincipal,
+   numeroSecundario=numSecundario,
+   observaciones=observ,
+   proveedorID=provID
+    where 
+	telefonoID=telID;
+end $$        
+delimiter ;
+call sp_ActualizarTelefono(1,'12329080','29748476','Telefonos de oficina y casa',1);
+
+
+delimiter $$
+create procedure sp_EliminarTelefono (in telID int)
+begin 
+	delete from TelefonoProveedor
+   where TelefonoProveedor.telefonoID=telID;
+end $$        
+delimiter ;
+call sp_EliminarTelefono(3);
+
+
+-- ----------------------------------------------------------crud email proveedor-----------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------
+
+delimiter $$
+	create procedure sp_AgregarEmail(in emID int,in emailProv varchar(50),in descrip varchar(100),in provID int)
+    begin
+		insert into EmailProveedor (EmailProveedor.emailID,EmailProveedor.emailProveedor,EmailProveedor.descripcion,EmailProveedor.proveedorID)
+         values(emID,emailProv,descrip,provID);
+	end $$
+delimiter ;
+call sp_AgregarEmail(1,'CarlosG@gmail.com','email personal',1);
+
+delimiter $$
+create procedure sp_MostrarEmails ()
+begin 
+	select
+   ema.emailID,
+   ema.emailProveedor,
+   ema.descripcion,
+   ema.proveedorID
+    from EmailProveedor ema;
+end $$        
+delimiter ;
+call sp_MostrarEmails ();
+
+
+
+delimiter $$
+create procedure sp_buscarEmail (in emID int)
+begin 
+	select* from EmailProveedor where EmailProveedor.emailID=emID;
+end $$        
+delimiter ;
+call sp_buscarEmail(1);
+
+
+delimiter $$
+create procedure sp_ActualizarEmail (in emID int,in emailProv varchar(50),in descrip varchar(100),in provID int)
+begin 
+	update EmailProveedor
+	set
+   emailProveedor=emailProv,
+   descripcion=descrip,
+   proveedorID=provID
+    where 
+	emailID=emID;
+end $$        
+delimiter ;
+call sp_ActualizarEmail(1,'CarlosG@gmail.com','email personal',1);
+
+
+delimiter $$
+create procedure sp_EliminarEmail (in emID int)
+begin 
+	delete from EmailProveedor
+   where EmailProveedor.emailID=emID;
+end $$        
+delimiter ;
+call sp_EliminarEmail(3);
+-- -----------------------------------------------------crud factura------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+delimiter $$
+	create procedure sp_AgregarFactura(in facID int, in est varchar(50),totalFact decimal(10,2),fechaFact varchar(45),cliID int,empID int)
+    begin
+		insert into Factura (Factura.facturaID,Factura.estado,Factura.totalFactura,Factura.fechaFactura,Factura.clienteID,Factura.empleadoID)
+         values(facID,est,totalFact,fechaFact,cliID,empID);
+	end $$
+delimiter ;
+call sp_AgregarFactura(1,'','105.00','28-06-2010',1,1);
+
+delimiter $$
+create procedure sp_MostrarFacturas ()
+begin 
+	select
+	f.facturaID,
+    f.estado,
+    f.totalFactura,
+    f.fechaFactura,
+    f.clienteID,
+    f.empleadoID
+    from Factura f;
+end $$        
+delimiter ;
+call sp_MostrarFacturas ();
+
+
+
+delimiter $$
+create procedure sp_buscarFactura (in facID int)
+begin 
+	select* from Factura where Factura.facturaID=facID;
+end $$        
+delimiter ;
+call sp_buscarFactura(1);
+
+
+delimiter $$
+create procedure sp_ActualizarFactura (in facID int, in est varchar(50),totalFact decimal(10,2),fechaFact varchar(45),cliID int,empID int)
+begin 
+	update Factura
+	set
+   estado=est,
+   totalFactura=totalFact,
+   fechaFactura=fechaFact,
+   clienteID=cliID,
+   empleadoID=empID
+    where 
+	facturaID=facID;
+end $$        
+delimiter ;
+call sp_ActualizarFactura(1,'en espera','105.00','28-06-2010',1,1);
+
+
+delimiter $$
+create procedure sp_EliminarFactura (in facID int)
+begin 
+	delete from Factura
+   where Factura.facturaID=facID;
+end $$        
+delimiter ;
+call sp_EliminarFactura(3);
+
+-- -------------------------------------------------crud detalle facura---------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------
+
+create table DetalleFactura(
+	detalleFacturaID int not null,
+    precioUnitario decimal(10,2),
+    cantidad int,
+    facturaID int,
+    productoID varchar(15),
+    primary key DetalleFactura(detalleFacturaID),
+    constraint FK_DetalleFactura_Factura foreign key DetalleFactura(facturaID) 
+    references Factura(facturaID) on delete cascade,
+    constraint FK_DetalleFactura_Productos foreign key DetalleFactura(productoID) 
+    references Productos(productoID) on delete cascade
+);
+
+delimiter $$
+	create procedure sp_AgregarDetalleFactura(in detalleFactID int,in precioU decimal(10,2),in cant int,in factID int,in prodID varchar(15))
+    begin
+		insert into DetalleFactura (DetalleFactura.detalleFacturaID,DetalleFactura.precioUnitario,DetalleFactura.cantidad,DetalleFactura.facturaID,DetalleFactura.productoID)
+         values(detalleFactID,precioU,cant,factID,prodID);
+	end $$
+delimiter ;
+call sp_AgregarDetalleFactura(1,'15.00',3,1,1);
+
+delimiter $$
+create procedure sp_MostrarDetalleFactura ()
+begin 
+	select
+   df.detalleFacturaID,
+   df.precioUnitario,
+   df.cantidad,
+   df.facturaID,
+   df.productoID
+    from DetalleFactura df;
+end $$        
+delimiter ;
+call sp_MostrarDetalleFactura ();
+
+
+
+delimiter $$
+create procedure sp_buscarDetalleFactura (in detalleFactID int)
+begin 
+	select* from DetalleFactura where DetalleFactura.detalleFacturaID=detalleFactID;
+end $$        
+delimiter ;
+call sp_buscarDetalleFactura(1);
+
+
+delimiter $$
+create procedure sp_ActualizarDetalleFactura (in detalleFactID int,in precioU decimal(10,2),in cant int,in factID int,in prodID varchar(15))
+begin 
+	update DetalleFactura
+	set
+   precioUnitario=precioU,
+   cantidad=cant,
+   facturaID=factID,
+   productoID=prodID
+    where 
+	detalleFacturaID=detalleFactID;
+end $$        
+delimiter ;
+call sp_ActualizarDetalleFactura(1,'15.00',3,1,1);
+
+
+delimiter $$
+create procedure sp_EliminarDetalleFactura (in detalleFactID int)
+begin 
+	delete from DetalleFactura
+   where DetalleFactura.detalleFacturaID=detalleFactID;
+end $$        
+delimiter ;
+call sp_EliminarDetalleFactura(3);

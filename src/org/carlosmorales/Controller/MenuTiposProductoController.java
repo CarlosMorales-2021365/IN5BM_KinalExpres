@@ -155,7 +155,7 @@ public class MenuTiposProductoController implements Initializable {
              break;
             default:
                 if(tblTipoProductos.getSelectionModel().getSelectedItem() !=null){
-                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Proveedor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int respuesta = JOptionPane.showConfirmDialog(null, "Confirmar la eliminacion del registro", "Eliminar Tipo Producto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (respuesta == JOptionPane.YES_NO_OPTION){
                         try{
                             PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_EliminarTipoProducto(?)}");
@@ -168,7 +168,7 @@ public class MenuTiposProductoController implements Initializable {
                         }
                     }
                 } else{
-                    JOptionPane.showMessageDialog(null, "Debe de seleccionar un proveedor para eliminar");
+                    JOptionPane.showMessageDialog(null, "Debe de seleccionar un tipo producto para eliminar");
                 }
         }
     }
@@ -187,7 +187,7 @@ public class MenuTiposProductoController implements Initializable {
                     txtCodigoTipoP.setEditable(false);
                     tipoDeOperaciones = operaciones.ACTUALIZAR;
                 }else{
-                    JOptionPane.showMessageDialog(null, "debe de selscionar un Proveedor para actualizar");
+                    JOptionPane.showMessageDialog(null, "debe de selscionar un tipo producto para actualizar");
                 }
                 break;
             case ACTUALIZAR:
