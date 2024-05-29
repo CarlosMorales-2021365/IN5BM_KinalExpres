@@ -1,4 +1,3 @@
-
 package org.carlosmorales.Controller;
 
 import java.net.URL;
@@ -9,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import org.carlosmorales.system.Main;
-
 
 public class MenuPrincipalController implements Initializable {
 
@@ -22,11 +20,24 @@ public class MenuPrincipalController implements Initializable {
     MenuItem btnMenuProveedor;
     @FXML
     MenuItem btnMenuTipoProducto;
-    @FXML MenuItem btnCompras;
-    @FXML MenuItem btnCargoEmpleado;
-    @FXML MenuItem btnProductos;
-    @FXML MenuItem btnDetalleCompras;
-    @FXML MenuItem btnEmpleados;
+    @FXML
+    MenuItem btnCompras;
+    @FXML
+    MenuItem btnCargoEmpleado;
+    @FXML
+    MenuItem btnProductos;
+    @FXML
+    MenuItem btnDetalleCompras;
+    @FXML
+    MenuItem btnEmpleados;
+    @FXML
+    MenuItem btnTelefonosProveedor;
+    @FXML
+    MenuItem btnEmailProveedores;
+    @FXML
+    MenuItem btnFacturas;
+    @FXML
+    MenuItem btnDetallesFactura;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,12 +123,38 @@ public class MenuPrincipalController implements Initializable {
     public void setBtnEmpleados(MenuItem btnEmpleados) {
         this.btnEmpleados = btnEmpleados;
     }
-    
-    
 
+    public MenuItem getBtnTelefonosProveedor() {
+        return btnTelefonosProveedor;
+    }
 
- 
+    public void setBtnTelefonosProveedor(MenuItem btnTelefonosProveedor) {
+        this.btnTelefonosProveedor = btnTelefonosProveedor;
+    }
 
+    public MenuItem getBtnEmailProveedores() {
+        return btnEmailProveedores;
+    }
+
+    public void setBtnEmailProveedores(MenuItem btnEmailProveedores) {
+        this.btnEmailProveedores = btnEmailProveedores;
+    }
+
+    public MenuItem getBtnFacturas() {
+        return btnFacturas;
+    }
+
+    public void setBtnFacturas(MenuItem btnFacturas) {
+        this.btnFacturas = btnFacturas;
+    }
+
+    public MenuItem getBtnDetallesFactura() {
+        return btnDetallesFactura;
+    }
+
+    public void setBtnDetallesFactura(MenuItem btnDetallesFactura) {
+        this.btnDetallesFactura = btnDetallesFactura;
+    }
 
     @FXML
     public void handleButtonAction(ActionEvent event) {
@@ -132,19 +169,34 @@ public class MenuPrincipalController implements Initializable {
         }
         if (event.getSource() == btnMenuTipoProducto) {
             escenarioPrincipal.MenuTipoProductoView();
-        }if (event.getSource() == btnCompras){
+        }
+        if (event.getSource() == btnCompras) {
             escenarioPrincipal.MenuComprasView();
-        }if (event.getSource()== btnCargoEmpleado){
+        }
+        if (event.getSource() == btnCargoEmpleado) {
             escenarioPrincipal.MenuCargoEmpleadoView();
-        }if (event.getSource()== btnProductos){
+        }
+        if (event.getSource() == btnProductos) {
             escenarioPrincipal.MenuProductosView();
-        }if (event.getSource() == btnDetalleCompras){
+        }
+        if (event.getSource() == btnDetalleCompras) {
             escenarioPrincipal.MenuDetallesCompraView();
-        }if (event.getSource() == btnEmpleados){
+        }
+        if (event.getSource() == btnEmpleados) {
             escenarioPrincipal.MenuEmpleadosView();
         }
-        
-        
+        if (event.getSource() == btnTelefonosProveedor) {
+            escenarioPrincipal.MenuTelefonoProveedoresView();
+        }
+        if (event.getSource() == btnEmailProveedores) {
+            escenarioPrincipal.MenuEmailProveedoresView();
+        }
+        if (event.getSource() == btnFacturas) {
+            escenarioPrincipal.MenuFacturasView();
+        }
+        if (event.getSource() == btnDetallesFactura) {
+            escenarioPrincipal.MenuDetallesFactura();
+        }
 
     }
 }
