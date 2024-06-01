@@ -21,13 +21,13 @@
             <Image url="@../Images/fondo%20Detalle%20Factura.png" />
          </image>
       </ImageView>
-      <TableView layoutX="40.0" layoutY="200.0" prefHeight="200.0" prefWidth="586.0">
+      <TableView fx:id="tblDetalles" layoutX="40.0" layoutY="200.0" onMouseClicked="#seleccionarElenemtos" prefHeight="200.0" prefWidth="586.0">
         <columns>
-          <TableColumn prefWidth="120.0" text="detalleFacturaID" />
-          <TableColumn prefWidth="108.0" text="precioUnitario" />
-            <TableColumn prefWidth="124.0" text="cantidad" />
-            <TableColumn prefWidth="116.0" text="facturaID" />
-            <TableColumn prefWidth="117.0" text="productoID" />
+          <TableColumn fx:id="colCodigoDetalleFact" prefWidth="120.0" text="detalleFacturaID" />
+          <TableColumn fx:id="colPrecioU" prefWidth="108.0" text="precioUnitario" />
+            <TableColumn fx:id="colCantidad" prefWidth="124.0" text="cantidad" />
+            <TableColumn fx:id="colFacturaID" prefWidth="116.0" text="facturaID" />
+            <TableColumn fx:id="colProductoID" prefWidth="117.0" text="productoID" />
         </columns>
       </TableView>
       <GridPane layoutX="48.0" layoutY="91.0" prefHeight="90.0" prefWidth="268.0">
@@ -56,9 +56,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtCodigoDetalleFact" GridPane.columnIndex="1" />
+            <TextField fx:id="txtPrecioU" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCantidad" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <GridPane layoutX="360.0" layoutY="106.0" prefHeight="60.0" prefWidth="222.0">
@@ -81,8 +81,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cmbFacturaID" prefWidth="150.0" GridPane.columnIndex="1" />
+            <ComboBox fx:id="cmbProductoID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <GridPane layoutX="646.0" layoutY="200.0" prefHeight="182.0" prefWidth="111.0">
@@ -96,36 +96,36 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="123.0" text="Agregar">
+            <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#Agregar" prefHeight="41.0" prefWidth="123.0" styleClass="button4" stylesheets="@../Recursos/KinalExpresCSS.css" text="Agregar">
                <graphic>
-                  <ImageView fitHeight="76.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgAgregar" fitHeight="76.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/agregar.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="127.0" text="Eliminar" GridPane.rowIndex="1">
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminar" prefHeight="42.0" prefWidth="127.0" styleClass="button4" stylesheets="@../Recursos/KinalExpresCSS.css" text="Eliminar" GridPane.rowIndex="1">
                <graphic>
-                  <ImageView fitHeight="97.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgEliminar" fitHeight="97.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/eliminar.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="126.0" text="Editar" GridPane.rowIndex="2">
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="42.0" prefWidth="126.0" styleClass="button4" stylesheets="@../Recursos/KinalExpresCSS.css" text="Editar" GridPane.rowIndex="2">
                <graphic>
-                  <ImageView fitHeight="85.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgEditar" fitHeight="85.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/editar.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="116.0" text="Reportes" GridPane.rowIndex="3">
+            <Button fx:id="btnReportes" mnemonicParsing="false" onAction="#reporte" prefHeight="42.0" prefWidth="116.0" styleClass="button4" stylesheets="@../Recursos/KinalExpresCSS.css" text="Reportes" GridPane.rowIndex="3">
                <graphic>
-                  <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgReportes" fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/Reportes.png" />
                      </image>
@@ -134,7 +134,7 @@
             </Button>
          </children>
       </GridPane>
-      <Button fx:id="btnRegresar" layoutX="646.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="72.0" prefWidth="80.0">
+      <Button fx:id="btnRegresar" layoutX="646.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="72.0" prefWidth="80.0" styleClass="button3" stylesheets="@../Recursos/KinalExpresCSS.css">
          <graphic>
             <ImageView fitHeight="124.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

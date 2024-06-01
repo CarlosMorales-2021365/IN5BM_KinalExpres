@@ -16,8 +16,46 @@
     -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
 }
 .button2:hover{
-    -fx-font-size: 22px;
+    -fx-background-color: #00EB6F;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
 }
+
+.button3:hover{
+    -fx-background-color: #FF6C10;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+.button4:hover{
+    -fx-background-color: #FFF600;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+.button5:hover{
+    -fx-background-color: #FFF94A;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+.button6:hover{
+    -fx-background-color: #F56CE1;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+
+.button7:hover{
+    -fx-background-color: #00F5EA;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+.button8:hover{
+    -fx-background-color: #004AAD;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+.button9:hover{
+    -fx-background-color: #67EEF4;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
 
 .table.view .colum-header,
 .table-view .colum-header-background.filler{

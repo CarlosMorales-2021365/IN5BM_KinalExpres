@@ -36,10 +36,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnAgregar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Agregar" prefHeight="50.0" prefWidth="146.0" text="Agregar" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="btnAgregar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Agregar" prefHeight="50.0" prefWidth="146.0" styleClass="button3" stylesheets="@../Recursos/KinalExpresCSS.css" text="Agregar" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <ImageView fitHeight="43.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="48.0" prefWidth="147.0" text="Editar" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button fx:id="btnReporte" mnemonicParsing="false" onAction="#reporte" prefHeight="49.0" prefWidth="158.0" text="Reportes" GridPane.rowIndex="3" />
+            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editar" prefHeight="48.0" prefWidth="147.0" styleClass="button3" stylesheets="@../Recursos/KinalExpresCSS.css" text="Editar" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button fx:id="btnReporte" mnemonicParsing="false" onAction="#reporte" prefHeight="49.0" prefWidth="158.0" styleClass="button3" stylesheets="@../Recursos/KinalExpresCSS.css" text="Reportes" GridPane.rowIndex="3" />
             <ImageView fx:id="imgEditar" fitHeight="43.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@../Images/EditarClientes.png" />
@@ -55,7 +55,7 @@
                   <Image url="@../Images/AgregarClientes.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnEliminar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#eliminar" prefHeight="52.0" prefWidth="154.0" text="Eliminar" GridPane.rowIndex="1" />
+            <Button fx:id="btnEliminar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#eliminar" prefHeight="52.0" prefWidth="154.0" styleClass="button3" stylesheets="@../Recursos/KinalExpresCSS.css" text="Eliminar" GridPane.rowIndex="1" />
             <ImageView fx:id="imgEliminar" fitHeight="43.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../Images/EliminarClientes.png" />
@@ -143,11 +143,13 @@
             <TextField fx:id="txtDireccionC" prefHeight="25.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="btnRegresar" layoutX="55.0" layoutY="382.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="70.0" prefWidth="90.0" />
-      <ImageView fx:id="imgRegresar" fitHeight="52.0" fitWidth="55.0" layoutX="73.0" layoutY="391.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Images/Regresar.png" />
-         </image>
-      </ImageView>
+      <Button fx:id="btnRegresar" layoutX="55.0" layoutY="382.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="70.0" prefWidth="90.0" styleClass="button2" stylesheets="@../Recursos/KinalExpresCSS.css">
+         <graphic>
+            <ImageView fx:id="imgRegresar" fitHeight="52.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/Regresar.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
    </children>
 </AnchorPane>

@@ -72,4 +72,10 @@ public class Facturas {
     }
     
     
+    @Override
+    public String toString(){
+        return getFacturaID()+ " | " + getEstado();
+    }
+
+    
 }

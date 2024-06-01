@@ -8,12 +8,12 @@ public class DetallesFacturas {
     private double precioUnitario;
     private int cantidad;
     private int facturaID;
-    private int productoID;
+    private String productoID;
     
     public DetallesFacturas(){
     }
 
-    public DetallesFacturas(int detalleFacturaID, double precioUnitario, int cantidad, int facturaID, int productoID) {
+    public DetallesFacturas(int detalleFacturaID, double precioUnitario, int cantidad, int facturaID, String productoID) {
         this.detalleFacturaID = detalleFacturaID;
         this.precioUnitario = precioUnitario;
         this.cantidad = cantidad;
@@ -53,13 +53,14 @@ public class DetallesFacturas {
         this.facturaID = facturaID;
     }
 
-    public int getProductoID() {
+    public String getProductoID() {
         return productoID;
     }
 
-    public void setProductoID(int productoID) {
+    public void setProductoID(String productoID) {
         this.productoID = productoID;
     }
+
     
-    
+ 
 }

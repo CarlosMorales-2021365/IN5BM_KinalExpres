@@ -870,19 +870,6 @@ call sp_EliminarFactura(3);
 -- -------------------------------------------------crud detalle facura---------------------------------------------------------------------------
 -- -----------------------------------------------------------------------------------------------------------------------------------------------
 
-create table DetalleFactura(
-	detalleFacturaID int not null,
-    precioUnitario decimal(10,2),
-    cantidad int,
-    facturaID int,
-    productoID varchar(15),
-    primary key DetalleFactura(detalleFacturaID),
-    constraint FK_DetalleFactura_Factura foreign key DetalleFactura(facturaID) 
-    references Factura(facturaID) on delete cascade,
-    constraint FK_DetalleFactura_Productos foreign key DetalleFactura(productoID) 
-    references Productos(productoID) on delete cascade
-);
-
 delimiter $$
 	create procedure sp_AgregarDetalleFactura(in detalleFactID int,in precioU decimal(10,2),in cant int,in factID int,in prodID varchar(15))
     begin
