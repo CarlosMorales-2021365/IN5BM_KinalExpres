@@ -202,6 +202,7 @@ public class MenuFacturasController implements Initializable {
     public void Agregar(){
         switch (tipoDeOperaciones){
             case NINGUNO:
+                txtTotalFact.setDisable(true);
                 activarControles();
                 btnAgregar.setText("Guardar");
                 btnEliminar.setText("Cancelar");
@@ -234,7 +235,7 @@ public class MenuFacturasController implements Initializable {
         Facturas registro = new Facturas();
         registro.setFacturaID(Integer.parseInt(txtCodigoFact.getText()));
         registro.setEstado(txtEstado.getText());
-        registro.setTotalFactura(Double.parseDouble(txtTotalFact.getText()));
+        registro.setTotalFactura(Double.parseDouble("0.00"));
         registro.setFechaFactura(txtFechaFact.getText());
         registro.setClienteID(((Clientes)cmbClienteID.getSelectionModel().getSelectedItem()).getClienteID());
         registro.setEmpleadoID(((Empleados)cmbEmpleadoID.getSelectionModel().getSelectedItem()).getEmpleadoID());

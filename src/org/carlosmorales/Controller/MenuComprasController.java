@@ -96,6 +96,7 @@ public class MenuComprasController implements Initializable {
     public void Agregar(){
         switch (tipoDeOperaciones){
             case NINGUNO:
+                txtTotalD.setDisable(true);
                 activarControles();
                 btnAgregar.setText("Guardar");
                 btnEliminar.setText("Cancelar");
@@ -125,7 +126,7 @@ public class MenuComprasController implements Initializable {
         registro.setNumeroDocumento(Integer.parseInt(txtNumeroD.getText()));
         registro.setFechaDocumento(txtFechaD.getText());
         registro.setDescripcion(txtDescripcion.getText());
-        registro.setTotalDocumento(txtTotalD.getText());
+        registro.setTotalDocumento("0.00");
         try{
             PreparedStatement procedimiento = Conexion.getInstance().getConexion().prepareCall("{call sp_AgregarCompra (?,?,?,?)}");
             procedimiento.setInt(1, registro.getNumeroDocumento());

@@ -489,6 +489,10 @@ delimiter $$
 delimiter ;
 call sp_AgregarProducto(1,'Leche Entera','12.00','270.00','900.00',17,2,1);
 
+
+
+
+
 delimiter $$
 create procedure sp_MostrarProductos ()
 begin 
@@ -505,7 +509,6 @@ begin
 end $$        
 delimiter ;
 call sp_MostrarProductos ();
-
 
 
 delimiter $$
@@ -534,6 +537,7 @@ begin
 end $$        
 delimiter ;
 call sp_ActualizarProducto(1,'Leche Entera','12.00','270.00','880.00',17,2,1);
+
 
 
 delimiter $$
@@ -928,3 +932,201 @@ begin
 end $$        
 delimiter ;
 call sp_EliminarDetalleFactura(3);
+
+
+-- --------------------------------------------------- Trigers ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*DROP TRIGGER IF EXISTS tr_ActualizarPreciosDetaleFactura_after_update;
+
+delimiter //
+	create trigger tr_InsertarPreciosDetaleFactura_before_Insert
+	before Insert on DetalleFactura 
+    for each row
+    begin
+		set new.precioUnitario=(select precioUnitario from Productos where Productos.productoID=new.productoID);
+end//
+delimiter ;
+
+
+delimiter //
+	create trigger tr_ActualizarPreciosDetaleFactura_after_update
+	after Update on Productos 
+    for each row
+    begin
+		call sp_ActualizarDetalleFactura(new.productoID,(select new.precioUnitario from Productos where Productos.productoID=new.productoID));
+end//
+delimiter ;
+
+
+-- agregar precios
+
+
+delimiter //
+	create trigger tr_InsertarPreciosProductos_after_Insert
+	after Insert on DetalleCompra 
+    for each row
+    begin
+		call sp_ActualizarProducto(new.productoID,(fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.40)),
+        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.35)),
+        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.25)),
+        new.cantidad);
+end//
+delimiter ;
+
+-- actualizar precios
+
+delimiter //
+	create trigger tr_ActualizarPreciosProductos_after_Update
+	after Update on DetalleCompra 
+    for each row
+    begin
+		call sp_ActualizarProducto(new.productoID,(fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.40)),
+        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.35)),
+        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.25)),
+        new.cantidad);
+end//
+delimiter ;
+
+-- eliminar precios
+
+delimiter //
+	create trigger tr_EliminarPreciosProductos_after_Delete
+	after delete on DetalleCompra 
+    for each row
+    begin
+		call sp_ActualizarProducto(old.productoID,0,0,0,0);
+end//
+delimiter ;
+
+
+
+-- insertar total compra
+
+delimiter //
+	create trigger tr_InsertarTotalCompra_after_Insert
+	after Insert on DetalleCompra 
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total=((select sum (costoUnitario*cantidad) from DetalleCompra where DetalleCompra.numeroDocumento = new.numeroDocumento));
+        
+        call sp_ActualizarCompra(new.numeroDocumento,total);
+end//
+delimiter ;
+
+-- actualizar total compra
+
+delimiter //
+	create trigger tr_ActualizarTotalCompra_after_update
+	after update on DetalleCompra 
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total=((select sum (new.costoUnitario*new.cantidad) from DetalleCompra where DetalleCompra.numeroDocumento = new.numeroDocumento));
+        
+        call sp_ActualizarCompra(new.numeroDocumento,total);
+end//
+delimiter ;
+
+
+-- total compra
+
+delimiter //
+	create function fn_TotalCompra(detalleCompraID int) 
+    returns decimal (10,2)
+    deterministic
+    begin
+		declare sumatoria decimal(10,2);
+        
+        set sumatoria = (select sum(cantidad*costoUnitario)from DetalleCompra.numeroDocumento = numeroDocumento);
+        return sumatoria;
+end//
+delimiter ;
+
+
+-- eliminar total compra
+
+delimiter //
+	create trigger tr_EliminarTotalCompra_after_Delete
+	after delete on DetalleCompra 
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total = fn_TotalCompra(old.numeroDocumento);
+        
+        call sp_ActualizarCompra(old.numeroDocumento,total);
+end//
+delimiter ;
+
+
+-- insertar total factura
+
+
+delimiter //
+	create trigger tr_InsertarTotalFactura_after_Insert
+	after Insert on DetalleFactura
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total=((select sum (precioUnitario*cantidad) from DetalleFactura where DetalleFactura.facturaID = new.facturaID));
+        
+        call sp_ActualizarFactura(new.facturaID,total);
+end//
+delimiter ;
+
+
+-- actualizar total factura ----------------------------------
+
+delimiter //
+	create trigger tr_ActualizarTotalFactura_after_update
+	after update on DetalleFactura 
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total=((select sum (new.precioUnitario*new.cantidad) from DetalleFactura where DetalleFactura.facturaID = new.facturaID));
+        
+        call sp_ActualizarFactura(new.facturaID,total);
+end//
+delimiter ;
+
+-- total factura
+
+delimiter //
+	create function fn_TotalFactura(facturaID int) 
+    returns decimal (10,2)
+    deterministic
+    begin
+		declare sumatoria decimal(10,2);
+        
+        set sumatoria = (select sum(precioUnitario*cantidad)from DetalleFactura.facturaID = facturaID);
+        return sumatoria;
+end//
+delimiter ;
+
+
+-- elimina total factura
+
+delimiter //
+	create trigger tr_EliminarTotalFactura_after_Delete
+	after delete on DetalleFactura 
+    for each row
+    begin
+		declare total decimal(10,2);
+        
+        set total = fn_TotalFactura(old.facturaID);
+        
+        call sp_ActualizarDetalleFactura(old.facturaID,total);
+        
+end//
+delimiter ;
+*/
+
+Alter user 'root'@'localhost' Identified with mysql_native_password by 'abc123**';
+
+select * from Clientes

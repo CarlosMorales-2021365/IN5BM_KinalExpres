@@ -42,7 +42,7 @@
 
 
 .button7:hover{
-    -fx-background-color: #67EEF4;
+    -fx-background-color: #00F5EA;
     -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
 }
 
@@ -50,6 +50,13 @@
     -fx-background-color: #004AAD;
     -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
 }
+
+.button9:hover{
+    -fx-background-color: #67EEF4;
+    -fx-effect: dropshadow(three-pass-box,black,10,0,0,0);
+}
+
+
 .table.view .colum-header,
 .table-view .colum-header-background.filler{
     -fx-cell-siza: 20;

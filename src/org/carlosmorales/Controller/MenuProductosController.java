@@ -199,6 +199,8 @@ public class MenuProductosController implements Initializable {
      public void Agregar(){
         switch (tipoDeOperaciones){
             case NINGUNO:
+                txtPrecioDocena.setDisable(true);
+                txtPrecioMayor.setDisable(true);
                 activarControles();
                 btnAgregar.setText("Guardar");
                 btnEliminar.setText("Cancelar");
@@ -230,8 +232,8 @@ public class MenuProductosController implements Initializable {
         registro.setProductoID(txtCodigoProd.getText());
         registro.setDescripcionProducto(txtDescripcionProd.getText());
         registro.setPrecionUnitario(Double.parseDouble(txtPrecioUnitario.getText()));
-        registro.setPrecioDocena(Double.parseDouble(txtPrecioDocena.getText()));
-        registro.setPrecioMayor(Double.parseDouble(txtPrecioMayor.getText()));
+        registro.setPrecioDocena(Double.parseDouble("0.00"));
+        registro.setPrecioMayor(Double.parseDouble("0.00"));
         registro.setExistencia(Integer.parseInt(txtExistencia.getText())); 
         registro.setProveedorID(((Proveedores)cmbProveedorID.getSelectionModel().getSelectedItem()).getProveedorID());
         registro.setTipoProductoID(((TiposProducto)cmbCodigoTipoP.getSelectionModel().getSelectedItem()).getTipoProductoID());
@@ -306,6 +308,8 @@ public class MenuProductosController implements Initializable {
      public void editar(){
         switch(tipoDeOperaciones){
             case NINGUNO:
+                txtPrecioDocena.setDisable(true);
+                txtPrecioMayor.setDisable(true);
                 if(tblProductos.getSelectionModel().getSelectedItem() !=null){
                     btnEditar.setText("Guardar");
                     btnReportes.setText("Cancelar");
@@ -315,6 +319,8 @@ public class MenuProductosController implements Initializable {
                     imgReportes.setImage(new Image("/org/carlosmorales/Images/cancelar.png"));
                     activarControles();
                     txtCodigoProd.setEditable(false);
+                    txtPrecioDocena.setEditable(false);
+                    txtPrecioMayor.setEditable(false);
                     tipoDeOperaciones = operaciones.ACTUALIZAR;
                 }else{
                     JOptionPane.showMessageDialog(null, "debe de selscionar un producto para actualizar");
@@ -345,8 +351,8 @@ public class MenuProductosController implements Initializable {
             registro.setProductoID(txtCodigoProd.getText());
             registro.setDescripcionProducto(txtDescripcionProd.getText());
             registro.setPrecionUnitario(Double.parseDouble(txtPrecioUnitario.getText()));
-            registro.setPrecioDocena(Double.parseDouble(txtPrecioDocena.getText()));
-            registro.setPrecioMayor(Double.parseDouble(txtPrecioMayor.getText()));
+            registro.setPrecioDocena(Double.parseDouble(txtPrecioUnitario.getText()));
+            registro.setPrecioMayor(Double.parseDouble(txtPrecioUnitario.getText()));
             registro.setExistencia(Integer.parseInt(txtExistencia.getText()));
             registro.setProveedorID(((Proveedores)cmbProveedorID.getSelectionModel().getSelectedItem()).getProveedorID());
             registro.setTipoProductoID(((TiposProducto)cmbCodigoTipoP.getSelectionModel().getSelectedItem()).getTipoProductoID());

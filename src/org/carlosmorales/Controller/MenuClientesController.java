@@ -4,6 +4,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javax.swing.JOptionPane;
 import org.carlosmorales.Bean.Clientes;
 import org.carlosmorales.DB.Conexion;
+import org.carlosmorales.report.GenerarReportes;
 import org.carlosmorales.system.Main;
 
 public class MenuClientesController implements Initializable {
@@ -185,6 +188,9 @@ public class MenuClientesController implements Initializable {
 
     public void reporte() {
         switch (tipoDeOperaciones) {
+            case NINGUNO:
+                imprimirReporte();
+                break;
             case ACTUALIZAR:
                 desactivarControles();
                 limpiarConroles();
@@ -196,6 +202,7 @@ public class MenuClientesController implements Initializable {
                 imgReportes.setImage(new Image("/org/carlosmorales/Images/Reportes.png"));
                 tipoDeOperaciones = operaciones.NINGUNO;
                 break;
+            
         }
     }
 
@@ -265,6 +272,15 @@ public class MenuClientesController implements Initializable {
                 cargarDatos();
                 break;
         }
+    }
+    
+    
+    public void imprimirReporte(){
+        Map parametros = new HashMap();
+        parametros.put("ClienteID", null);
+        GenerarReportes.mostrarReportes("reportesClientes.jasper", "Reportes de Clientes", parametros);
+        
+        
     }
 
     public void actualizar() {
