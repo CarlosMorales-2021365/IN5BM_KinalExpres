@@ -191,6 +191,7 @@ public class MenuDetalleCompraController implements Initializable {
      public void Agregar(){
         switch (tipoDeOperaciones){
             case NINGUNO:
+                txtCostoUnitario.setDisable(true);
                 activarControles();
                 btnAgregar.setText("Guardar");
                 btnEliminar.setText("Cancelar");
@@ -219,7 +220,7 @@ public class MenuDetalleCompraController implements Initializable {
      public void guardar(){
         DetallesCompras registro = new DetallesCompras();
         registro.setDetalleCompraID(Integer.parseInt(txtCodigoD.getText()));
-        registro.setCostoUnitario(Double.parseDouble(txtCostoUnitario.getText()));
+        registro.setCostoUnitario(Double.parseDouble("0.00"));
         registro.setCantidad(Integer.parseInt(txtCantidad.getText()));
         registro.setProductoID(((Productos)cmbCodigoProd.getSelectionModel().getSelectedItem()).getProductoID());
         registro.setNumeroDocumento(((Compras)cmbNumeroD.getSelectionModel().getSelectedItem()).getNumeroDocumento());

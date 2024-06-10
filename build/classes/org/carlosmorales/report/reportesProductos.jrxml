@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportesProductos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d1b02c19-f361-434e-8921-d272b7214680">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="327"/>
+	<property name="ireport.y" value="392"/>
+	<queryString>
+		<![CDATA[select * from vw_reportesProductos]]>
+	</queryString>
+	<field name="descripcionProducto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precioUnitario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoProductoID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="proveedorID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombresProveedor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band height="802" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="555" height="802" uuid="8e0e88b5-2e43-4e94-830f-65c072419008"/>
+				<imageExpression><![CDATA["C:\\Users\\Usuario\\Desktop\\KinalExpressCarlosMorales\\IN5BM_KinalExpres\\src\\org\\carlosmorales\\Images\\fondo reportes Productos.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="481" y="0" width="74" height="68" uuid="f1adeda1-d7d8-469b-b595-7afd9dbdf20e"/>
+				<imageExpression><![CDATA["C:\\Users\\Usuario\\Desktop\\KinalExpressCarlosMorales\\IN5BM_KinalExpres\\src\\org\\carlosmorales\\Images\\Logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="150" splitType="Stretch">
+			<staticText>
+				<reportElement x="57" y="122" width="131" height="28" uuid="6c4fc753-85ba-4d97-bf26-9657bddb9d0d"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement x="57" y="34" width="82" height="20" uuid="371dea5f-cd05-45db-a9a4-2d8d1f99332e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="34" width="100" height="20" uuid="e6f62e97-8734-41a9-8ea2-d0bbd1a06a41"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio unidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="34" width="100" height="20" uuid="20b655aa-97ce-4f9a-b37c-4e159c6afcf3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="34" width="100" height="20" uuid="d6ae5faf-5123-49d4-8094-2b024cf02d84"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="57" y="62" width="435" height="1" forecolor="#FFF600" uuid="56a84eaf-bf2c-49f9-8b99-2916bf76729c"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="57" y="0" width="100" height="20" uuid="0e44e45e-46d0-443e-814f-eaed4e0a9163"/>
+				<textFieldExpression><![CDATA[$F{descripcionProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="0" width="100" height="20" uuid="1601bba1-5b41-4e31-8179-ac70038c0f57"/>
+				<textFieldExpression><![CDATA[$F{precioUnitario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="0" width="100" height="20" uuid="4a76fe3b-fcb5-459c-9732-d2f1ffc961bc"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="0" width="100" height="20" uuid="64b92433-4e0b-4617-a19d-be0ae1ac0326"/>
+				<textFieldExpression><![CDATA[$F{nombresProveedor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="57" y="22" width="435" height="1" forecolor="#FFF600" uuid="bf179f68-4694-4722-be02-d60c603836e0"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

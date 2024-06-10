@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportesProveedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d63d088b-d8ae-4423-88f3-b8b059a465ae">
 	<property name="ireport.zoom" value="1.2100000000000024"/>
-	<property name="ireport.x" value="6"/>
-	<property name="ireport.y" value="274"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="34"/>
 	<queryString>
 		<![CDATA[call sp_MostrarProveedores]]>
 	</queryString>
@@ -87,7 +87,7 @@
 				<text><![CDATA[Contacto]]></text>
 			</staticText>
 			<line>
-				<reportElement x="55" y="40" width="445" height="1" uuid="711a2ec2-ec65-409d-b71c-8d49a5508c22"/>
+				<reportElement x="55" y="40" width="445" height="1" forecolor="#00EB6F" uuid="711a2ec2-ec65-409d-b71c-8d49a5508c22"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
@@ -113,7 +113,7 @@
 				<textFieldExpression><![CDATA[$F{contactoPrincipal}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="55" y="29" width="445" height="1" uuid="6c8dbcc3-ab17-4e6f-ae98-f34fe721d096"/>
+				<reportElement x="55" y="29" width="445" height="1" forecolor="#00EB6F" uuid="6c8dbcc3-ab17-4e6f-ae98-f34fe721d096"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>

@@ -4,6 +4,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,7 @@ import org.carlosmorales.Bean.Clientes;
 import org.carlosmorales.Bean.Proveedores;
 
 import org.carlosmorales.DB.Conexion;
+import org.carlosmorales.report.GenerarReportes;
 import org.carlosmorales.system.Main;
 
 public class MenuProveedorController implements Initializable {
@@ -170,6 +173,9 @@ public class MenuProveedorController implements Initializable {
     
     public void reporte(){
         switch(tipoDeOperaciones){
+            case NINGUNO:
+                imprimirReporte();
+                break;
             case ACTUALIZAR:
                 desactivarControles();
                 limpiarControles();
@@ -249,6 +255,13 @@ public class MenuProveedorController implements Initializable {
                cargarDatos();
                break;
         }
+    }
+    
+    
+    public void imprimirReporte(){
+        Map parametros = new HashMap();
+        parametros.put("proveedorID", null);
+        GenerarReportes.mostrarReportes("reportesProveedores.jasper", "Reportes de Proveedores", parametros);
     }
     
     public void actualizar(){

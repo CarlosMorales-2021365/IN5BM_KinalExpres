@@ -603,7 +603,7 @@ begin
 	detalleCompraID=detalleComID;
 end $$        
 delimiter ;
-call sp_ActualizarDetalleCompra(1,'12.00',3,'1',1);
+call sp_ActualizarDetalleCompra(1,'15.00',3,'1',1);
 
 
 delimiter $$
@@ -937,6 +937,78 @@ call sp_EliminarDetalleFactura(3);
 -- --------------------------------------------------- Trigers ------------------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------------------------------------------------------
 
+ALTER TABLE `dbkinalexpres_2021365`.`productos` 
+CHANGE COLUMN `precioUnitario` `precioUnitario` DECIMAL(10,2) NULL DEFAULT 0 ,
+CHANGE COLUMN `precioDocena` `precioDocena` DECIMAL(10,2) NULL DEFAULT 0 ,
+CHANGE COLUMN `precioMayor` `precioMayor` DECIMAL(10,2) NULL DEFAULT 0 ;
+
+delimiter $$
+create procedure sp_ActualizarPreciosProductos (in prodID varchar(15), in costoUnitario decimal(10,2), in cantidad int)
+begin 
+	update productos
+	set
+		precioUnitario=(costoUnitario * 1.4), -- Al Costo unitario se le suma el 40% de ganancia
+        precioDocena= (costoUnitario * 1.35) , -- Al Costo unitario se le suma el 35% de ganancia 
+        precioMayor= (costoUnitario * 1.25), -- Al Costo unitario se le suma el 25% de ganancia
+		existencia=existencia+cantidad
+    where 
+		productoID=prodID;
+end $$        
+delimiter ;
+
+delimiter //
+create trigger tr_ModificarProductosDetalleCompra_after_update
+after update on DetalleCompra
+for each row
+begin
+	call sp_ActualizarPreciosProductos (NEW.productoId, NEW.costoUnitario, new.cantidad);
+    -- Se actualiza el total de la compra 
+    call sp_ActualizarTotalcompra(NEW.numeroDocumento);
+end//
+delimiter ;
+
+delimiter $$
+create procedure sp_ActualizarTotalcompra (numDoc int)
+begin 
+	update compras
+	set
+		totalDocumento = (SELECT SUM(costoUnitario * Cantidad) FROM detallecompra WHERE numeroDocumento = numDoc)
+    where 
+		numeroDocumento =numDoc;
+end $$        
+delimiter ;
+
+delimiter //
+	create trigger tr_InsertarPreciosDetaleFactura_before_Insert
+	before Insert on DetalleFactura 
+    for each row
+    begin
+		set new.precioUnitario=(select precioUnitario from Productos where Productos.productoID=new.productoID);
+		
+end//
+delimiter ;
+
+delimiter //
+	create trigger tr_ModificarTotalDetaleFactura_after_insert
+	after insert on DetalleFactura 
+    for each row
+    begin
+		call sp_ActualizarTotalfactura (NEW.facturaId);
+end//
+delimiter ;
+
+delimiter $$
+create procedure sp_ActualizarTotalfactura (factId int)
+begin 
+	update factura
+	set
+		totalFactura = (SELECT SUM(precioUnitario * Cantidad) FROM detallefactura WHERE facturaId = factId)
+    where 
+		facturaId =factId;
+end $$        
+delimiter ;
+
+
 /*DROP TRIGGER IF EXISTS tr_ActualizarPreciosDetaleFactura_after_update;
 
 delimiter //
@@ -1127,6 +1199,35 @@ end//
 delimiter ;
 */
 
+create table Productos(
+	productoID varchar(15) not null,
+    descripcionProducto varchar(45),
+	precioUnitario decimal(10,2),
+	precioDocena decimal(10,2),
+	precioMayor decimal(10,2),
+	imagenProducto varchar(45),
+	existencia int,
+    tipoProductoID int,
+    proveedorID int,
+    primary key productoID (productoID),
+    constraint FK_Productos_tipoProducto foreign key Productos(tipoProductoID) 
+    references tipoProducto(tipoProductoID) on delete cascade,
+    constraint FK_Productos_Proveedores foreign key Productos(proveedorID) 
+    references Proveedores(proveedorID) on delete cascade
+);
+
 Alter user 'root'@'localhost' Identified with mysql_native_password by 'abc123**';
 
-select * from Clientes
+select * from Productos;
+
+-- ------------------------------------------------------- Joins --------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+create view vw_reportesProductos as select Productos.descripcionProducto, Productos.precioUnitario, Productos.tipoProductoID, tipoProducto.descripcion, Productos.proveedorID, Proveedores.nombresProveedor from Productos
+left join tipoProducto on Productos.tipoProductoID= tipoProducto.tipoProductoID 
+left join Proveedores on Productos.proveedorID = Proveedores.proveedorID;
+
+select * from vw_reportesProductos;
+
+select p.descripcionProducto, p.precioUnitario, p.Existencia from Productos p
