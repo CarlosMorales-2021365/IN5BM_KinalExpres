@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportesFacturas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="85d74ec7-1fb2-4a3d-96db-11fa2433f730">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.0000000000000022"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="239"/>
+	<property name="ireport.y" value="576"/>
 	<parameter name="FactID" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -95,7 +95,7 @@ where Factura.facturaID = $P{FactID}]]>
 				<imageExpression><![CDATA["C:\\Users\\Usuario\\Desktop\\KinalExpressCarlosMorales\\IN5BM_KinalExpres\\src\\org\\carlosmorales\\Images\\fondo reportes Facturas.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame">
-				<reportElement x="0" y="0" width="79" height="77" uuid="b60572e1-6944-40f6-8f94-f38f6562f527"/>
+				<reportElement x="21" y="57" width="76" height="58" uuid="b60572e1-6944-40f6-8f94-f38f6562f527"/>
 				<imageExpression><![CDATA["C:\\Users\\Usuario\\Desktop\\KinalExpressCarlosMorales\\IN5BM_KinalExpres\\src\\org\\carlosmorales\\Images\\Logo.png"]]></imageExpression>
 			</image>
 		</band>
@@ -105,7 +105,7 @@ where Factura.facturaID = $P{FactID}]]>
 			<staticText>
 				<reportElement x="108" y="57" width="157" height="38" uuid="b83daa11-9f1f-4031-9022-ad656bad07bb"/>
 				<textElement verticalAlignment="Bottom">
-					<font size="24" isBold="true"/>
+					<font fontName="Agency FB" size="24" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Kinal Expres]]></text>
 			</staticText>
@@ -226,6 +226,22 @@ where Factura.facturaID = $P{FactID}]]>
 				</textElement>
 				<textFieldExpression><![CDATA["Total:"+"Q"+$F{totalFactura}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="108" y="65" width="495" height="1" uuid="24214d9a-2a95-4084-b9cc-1c4afd00633f"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#8700F5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="108" y="44" width="495" height="1" uuid="6041d271-c298-438d-841f-b2ee04485428"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#8700F5"/>
+				</graphicElement>
+			</line>
+			<image scaleImage="FillFrame">
+				<reportElement x="79" y="119" width="174" height="100" uuid="fb4f4dac-28df-4bb8-8998-abc5033ef158"/>
+				<imageExpression><![CDATA["C:\\Users\\Usuario\\Desktop\\KinalExpressCarlosMorales\\IN5BM_KinalExpres\\src\\org\\carlosmorales\\Images\\Firma.png"]]></imageExpression>
+			</image>
 		</band>
 	</detail>
 	<columnFooter>
