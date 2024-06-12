@@ -5,6 +5,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +26,7 @@ import org.carlosmorales.Bean.Clientes;
 import org.carlosmorales.Bean.Empleados;
 import org.carlosmorales.Bean.Facturas;
 import org.carlosmorales.DB.Conexion;
+import org.carlosmorales.report.GenerarReportes;
 import org.carlosmorales.system.Main;
 
 
@@ -255,6 +258,9 @@ public class MenuFacturasController implements Initializable {
     
      public void reporte(){
         switch(tipoDeOperaciones){
+            case NINGUNO:
+                imprimirReportes();
+                break;
             case ACTUALIZAR:
                 desactivarControles();
                 limpiarControles();
@@ -268,6 +274,13 @@ public class MenuFacturasController implements Initializable {
                 break;
         }
     }
+     
+     public void imprimirReportes(){
+        Map parametros = new HashMap();
+        int factID = Integer.valueOf(((Facturas)tblFacturas.getSelectionModel().getSelectedItem()).getFacturaID());
+        parametros.put("FactID", factID);
+        GenerarReportes.mostrarReportes("reportesFacturas.jasper", "Factura", parametros);
+     }
      
      
      public void eliminar(){

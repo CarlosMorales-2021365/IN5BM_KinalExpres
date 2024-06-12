@@ -1050,3 +1050,16 @@ left join tipoProducto on Productos.tipoProductoID= tipoProducto.tipoProductoID
 left join Proveedores on Productos.proveedorID = Proveedores.proveedorID;
 
 select * from vw_reportesProductos;
+
+
+-- IDfactura, cantidad, Facturas, fecha
+-- nombre, nit apellido telefono Clientes 
+-- precio unitario, descripcion 
+-- Detallefactura cantidad, precio unitario
+
+
+select * from DetalleFactura
+join Factura on DetalleFactura.facturaID = Factura.facturaID
+join Clientes on Factura.clienteID = Clientes.clienteID
+join Productos on DetalleFactura.productoID = Productos.productoID
+where Factura.facturaID = 2;

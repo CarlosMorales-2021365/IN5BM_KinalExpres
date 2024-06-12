@@ -563,7 +563,7 @@ delimiter $$
          values(detalleComID,costoUni,cant,prodID,numDocumento);
 	end $$
 delimiter ;
-call sp_AgregarDetalleCompra(1,'12.00',3,'1',1);
+call sp_AgregarDetalleCompra(2,'10.00',2,'2',1);
 
 delimiter $$
 create procedure sp_MostrarDetallesCompras ()
@@ -603,7 +603,7 @@ begin
 	detalleCompraID=detalleComID;
 end $$        
 delimiter ;
-call sp_ActualizarDetalleCompra(1,'15.00',3,'1',1);
+call sp_ActualizarDetalleCompra(2,'15.00',3,'1',1);
 
 
 delimiter $$
@@ -937,11 +937,14 @@ call sp_EliminarDetalleFactura(3);
 -- --------------------------------------------------- Trigers ------------------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- modificamos le entidad Productos
 ALTER TABLE `dbkinalexpres_2021365`.`productos` 
 CHANGE COLUMN `precioUnitario` `precioUnitario` DECIMAL(10,2) NULL DEFAULT 0 ,
 CHANGE COLUMN `precioDocena` `precioDocena` DECIMAL(10,2) NULL DEFAULT 0 ,
 CHANGE COLUMN `precioMayor` `precioMayor` DECIMAL(10,2) NULL DEFAULT 0 ;
 
+
+-- trigget y sp para actualizar los precios
 delimiter $$
 create procedure sp_ActualizarPreciosProductos (in prodID varchar(15), in costoUnitario decimal(10,2), in cantidad int)
 begin 
@@ -956,6 +959,8 @@ begin
 end $$        
 delimiter ;
 
+
+-- 
 delimiter //
 create trigger tr_ModificarProductosDetalleCompra_after_update
 after update on DetalleCompra
@@ -967,6 +972,9 @@ begin
 end//
 delimiter ;
 
+
+
+-- sp para actualizar el total de compra
 delimiter $$
 create procedure sp_ActualizarTotalcompra (numDoc int)
 begin 
@@ -978,6 +986,21 @@ begin
 end $$        
 delimiter ;
 
+
+-- trigger para obtener el precio unitario en detalle compra
+delimiter //
+	create trigger tr_InsertarPreciosDetaleCompra_before_Insert
+	before Insert on DetalleCompra 
+    for each row
+    begin
+		set new.costoUnitario=(select precioUnitario from Productos where Productos.productoID=new.productoID);
+		
+end//
+delimiter ;
+
+
+
+-- trigger para obtenter el precio unitario
 delimiter //
 	create trigger tr_InsertarPreciosDetaleFactura_before_Insert
 	before Insert on DetalleFactura 
@@ -988,6 +1011,8 @@ delimiter //
 end//
 delimiter ;
 
+
+-- trigger para actualizar el total de la factura
 delimiter //
 	create trigger tr_ModificarTotalDetaleFactura_after_insert
 	after insert on DetalleFactura 
@@ -997,6 +1022,8 @@ delimiter //
 end//
 delimiter ;
 
+
+-- sp para le total factura
 delimiter $$
 create procedure sp_ActualizarTotalfactura (factId int)
 begin 
@@ -1009,216 +1036,10 @@ end $$
 delimiter ;
 
 
-/*DROP TRIGGER IF EXISTS tr_ActualizarPreciosDetaleFactura_after_update;
-
-delimiter //
-	create trigger tr_InsertarPreciosDetaleFactura_before_Insert
-	before Insert on DetalleFactura 
-    for each row
-    begin
-		set new.precioUnitario=(select precioUnitario from Productos where Productos.productoID=new.productoID);
-end//
-delimiter ;
-
-
-delimiter //
-	create trigger tr_ActualizarPreciosDetaleFactura_after_update
-	after Update on Productos 
-    for each row
-    begin
-		call sp_ActualizarDetalleFactura(new.productoID,(select new.precioUnitario from Productos where Productos.productoID=new.productoID));
-end//
-delimiter ;
-
-
--- agregar precios
-
-
-delimiter //
-	create trigger tr_InsertarPreciosProductos_after_Insert
-	after Insert on DetalleCompra 
-    for each row
-    begin
-		call sp_ActualizarProducto(new.productoID,(fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.40)),
-        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.35)),
-        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.25)),
-        new.cantidad);
-end//
-delimiter ;
-
--- actualizar precios
-
-delimiter //
-	create trigger tr_ActualizarPreciosProductos_after_Update
-	after Update on DetalleCompra 
-    for each row
-    begin
-		call sp_ActualizarProducto(new.productoID,(fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.40)),
-        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.35)),
-        (fn_TraerPrecioUnitario(new.productoID)+(fn_traerPecioUnitario(new.productoID)*0.25)),
-        new.cantidad);
-end//
-delimiter ;
-
--- eliminar precios
-
-delimiter //
-	create trigger tr_EliminarPreciosProductos_after_Delete
-	after delete on DetalleCompra 
-    for each row
-    begin
-		call sp_ActualizarProducto(old.productoID,0,0,0,0);
-end//
-delimiter ;
-
-
-
--- insertar total compra
-
-delimiter //
-	create trigger tr_InsertarTotalCompra_after_Insert
-	after Insert on DetalleCompra 
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total=((select sum (costoUnitario*cantidad) from DetalleCompra where DetalleCompra.numeroDocumento = new.numeroDocumento));
-        
-        call sp_ActualizarCompra(new.numeroDocumento,total);
-end//
-delimiter ;
-
--- actualizar total compra
-
-delimiter //
-	create trigger tr_ActualizarTotalCompra_after_update
-	after update on DetalleCompra 
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total=((select sum (new.costoUnitario*new.cantidad) from DetalleCompra where DetalleCompra.numeroDocumento = new.numeroDocumento));
-        
-        call sp_ActualizarCompra(new.numeroDocumento,total);
-end//
-delimiter ;
-
-
--- total compra
-
-delimiter //
-	create function fn_TotalCompra(detalleCompraID int) 
-    returns decimal (10,2)
-    deterministic
-    begin
-		declare sumatoria decimal(10,2);
-        
-        set sumatoria = (select sum(cantidad*costoUnitario)from DetalleCompra.numeroDocumento = numeroDocumento);
-        return sumatoria;
-end//
-delimiter ;
-
-
--- eliminar total compra
-
-delimiter //
-	create trigger tr_EliminarTotalCompra_after_Delete
-	after delete on DetalleCompra 
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total = fn_TotalCompra(old.numeroDocumento);
-        
-        call sp_ActualizarCompra(old.numeroDocumento,total);
-end//
-delimiter ;
-
-
--- insertar total factura
-
-
-delimiter //
-	create trigger tr_InsertarTotalFactura_after_Insert
-	after Insert on DetalleFactura
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total=((select sum (precioUnitario*cantidad) from DetalleFactura where DetalleFactura.facturaID = new.facturaID));
-        
-        call sp_ActualizarFactura(new.facturaID,total);
-end//
-delimiter ;
-
-
--- actualizar total factura ----------------------------------
-
-delimiter //
-	create trigger tr_ActualizarTotalFactura_after_update
-	after update on DetalleFactura 
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total=((select sum (new.precioUnitario*new.cantidad) from DetalleFactura where DetalleFactura.facturaID = new.facturaID));
-        
-        call sp_ActualizarFactura(new.facturaID,total);
-end//
-delimiter ;
-
--- total factura
-
-delimiter //
-	create function fn_TotalFactura(facturaID int) 
-    returns decimal (10,2)
-    deterministic
-    begin
-		declare sumatoria decimal(10,2);
-        
-        set sumatoria = (select sum(precioUnitario*cantidad)from DetalleFactura.facturaID = facturaID);
-        return sumatoria;
-end//
-delimiter ;
-
-
--- elimina total factura
-
-delimiter //
-	create trigger tr_EliminarTotalFactura_after_Delete
-	after delete on DetalleFactura 
-    for each row
-    begin
-		declare total decimal(10,2);
-        
-        set total = fn_TotalFactura(old.facturaID);
-        
-        call sp_ActualizarDetalleFactura(old.facturaID,total);
-        
-end//
-delimiter ;
-*/
-
-create table Productos(
-	productoID varchar(15) not null,
-    descripcionProducto varchar(45),
-	precioUnitario decimal(10,2),
-	precioDocena decimal(10,2),
-	precioMayor decimal(10,2),
-	imagenProducto varchar(45),
-	existencia int,
-    tipoProductoID int,
-    proveedorID int,
-    primary key productoID (productoID),
-    constraint FK_Productos_tipoProducto foreign key Productos(tipoProductoID) 
-    references tipoProducto(tipoProductoID) on delete cascade,
-    constraint FK_Productos_Proveedores foreign key Productos(proveedorID) 
-    references Proveedores(proveedorID) on delete cascade
-);
 
 Alter user 'root'@'localhost' Identified with mysql_native_password by 'abc123**';
 
-select * from Productos;
+-- select * from Productos;
 
 -- ------------------------------------------------------- Joins --------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1230,4 +1051,15 @@ left join Proveedores on Productos.proveedorID = Proveedores.proveedorID;
 
 select * from vw_reportesProductos;
 
-select p.descripcionProducto, p.precioUnitario, p.Existencia from Productos p
+
+-- IDfactura, cantidad, Facturas, fecha
+-- nombre, nit apellido telefono Clientes 
+-- precio unitario, descripcion 
+-- Detallefactura cantidad, precio unitario
+
+
+select * from DetalleFactura
+join Factura on DetalleFactura.facturaID = Factura.facturaID
+join Clientes on Factura.clienteID = Clientes.clienteID
+join Productos on DetalleFactura.productoID = Productos.productoID
+where Factura.facturaID = 2;
