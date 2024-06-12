@@ -259,7 +259,11 @@ public class MenuFacturasController implements Initializable {
      public void reporte(){
         switch(tipoDeOperaciones){
             case NINGUNO:
+                if(tblFacturas.getSelectionModel().getSelectedItem() !=null){
                 imprimirReportes();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Debe de seleccionar una factura para ver el reporte");
+                }
                 break;
             case ACTUALIZAR:
                 desactivarControles();
